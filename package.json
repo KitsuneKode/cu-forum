@@ -5,6 +5,12 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
+    "db:generate": "turbo run db:generate --filter=@cu-forum/store ",
+    "db:migrate:dev": "turbo run db:migrate:dev --filter=@cu-forum/store",
+    "db:migrate:deploy": "turbo run db:migrate:deploy -filter=@cu-forum/store",
+    "db:reset": "turbo run db:reset --filter=@cu-forum/store",
+    "db:studio": "turbo run db:studio --filter=@cu-forum/store",
+
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
     "preinstall": "pnpm dlx only-allow pnpm"

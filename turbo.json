@@ -21,11 +21,22 @@
     "db:generate": {
       "cache": false
     },
-    "db:migrate": {
+      "db:migrate:dev": {
       "cache": false,
       "persistent": true
     },
-    "db:deploy": {
+      "db:migrate:deploy": {
+      "cache": false,
+      "persistent": true
+    },
+      "db:migrate": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:studio": {
+      "cache": false
+    },
+    "db:reset": {
       "cache": false
     }
   }

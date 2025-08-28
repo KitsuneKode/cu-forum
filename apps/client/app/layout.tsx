@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Fira_Code, Lora, Figtree } from 'next/font/google'
+import { Fira_Code, Lora, Space_Grotesk } from 'next/font/google'
 
 import NavBar from '@/components/header'
 import { Providers } from '@/components/providers'
@@ -22,8 +22,8 @@ export const firaCodeMono = Fira_Code({
   subsets: ['latin'],
 })
 
-export const figTree = Figtree({
-  variable: '--font-figtree',
+export const spaceGrotesk = Space_Grotesk({
+  variable: '--font-space-grotesk',
   subsets: ['latin'],
 })
 

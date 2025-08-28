@@ -1,1 +1,1 @@
-export * from '@cu-forum/common/types/zod-schema'
+export * from './types/zod-schema'

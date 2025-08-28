@@ -1,12 +1,13 @@
-import { auth, fromNodeHeaders } from '@cu-forum/auth/server'
-import { initTRPC, TRPCError } from '@trpc/server'
-import { prisma as db } from '@cu-forum/store'
-import { z, ZodError } from 'zod/v4'
 import superjson from 'superjson'
-
+import { z, ZodError } from 'zod/v4'
+import { prisma as db } from '@cu-forum/store'
+import { initTRPC, TRPCError } from '@trpc/server'
+import { auth, fromNodeHeaders } from '@cu-forum/auth/server'
 import * as trpcExpress from '@trpc/server/adapters/express'
 
-export const createTRPCContext = async ({ req, res }: trpcExpress.CreateExpressContextOptions) => {
+export const createTRPCContext = async ({
+  req,
+}: trpcExpress.CreateExpressContextOptions) => {
   const headers = fromNodeHeaders(req.headers)
 
   const session = await auth.api.getSession({
@@ -35,11 +36,13 @@ const t = initTRPC.context<Context>().create({
 })
 
 export const createTRPCRouter = t.router
+export const createCallerFactory = t.createCallerFactory
+export const mergeTRPCRouters = t.mergeRouters
 
 const timingMiddleware = t.middleware(async ({ next, path }) => {
   const start = Date.now()
 
-  if (t._config.isDev) {
+  if (process.env.NODE_ENV === 'development') {
     // artificial delay in dev 100-500ms
     const waitMs = Math.floor(Math.random() * 400) + 100
     await new Promise((resolve) => setTimeout(resolve, waitMs))
@@ -55,14 +58,16 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
 
 export const publicProcedure = t.procedure.use(timingMiddleware)
 
-export const protectedProcedure = t.procedure.use(timingMiddleware).use(({ ctx, next }) => {
-  if (!ctx.session?.user) {
-    throw new TRPCError({ code: 'UNAUTHORIZED' })
-  }
-  return next({
-    ctx: {
-      // infers the `session` as non-nullable
-      session: { ...ctx.session, user: ctx.session.user },
-    },
+export const protectedProcedure = t.procedure
+  .use(timingMiddleware)
+  .use(({ ctx, next }) => {
+    if (!ctx.session?.user) {
+      throw new TRPCError({ code: 'UNAUTHORIZED' })
+    }
+    return next({
+      ctx: {
+        // infers the `session` as non-nullable
+        session: { ...ctx.session, user: ctx.session.user },
+      },
+    })
   })
-})

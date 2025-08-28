@@ -1,11 +1,3 @@
 {
   "extends": "@cu-forum/typescript-config/backend.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@cu-forum/backend-common/*": ["./src/*"]
-    }
-  },
-  "include": ["."],
-  "exclude": ["node_modules"]
 }
