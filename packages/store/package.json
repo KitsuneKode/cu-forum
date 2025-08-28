@@ -1,7 +1,6 @@
 {
-  "name": "@template/store",
+  "name": "@cu-forum/store",
   "module": "src/index.ts",
-  "type": "module",
   "private": true,
   "scripts": {
     "db:generate": "bunx prisma generate",
@@ -14,7 +13,7 @@
     ".": "./src/index.ts"
   },
   "devDependencies": {
-    "@template/typescript-config": "*",
+    "@cu-forum/typescript-config": "workspace:*",
     "@types/bun": "latest"
   },
   "peerDependencies": {

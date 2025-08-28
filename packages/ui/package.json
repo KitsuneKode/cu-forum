@@ -1,5 +1,5 @@
 {
-  "name": "@template/ui",
+  "name": "@cu-forum/ui",
   "version": "0.0.0",
   "private": true,
   "exports": {
@@ -15,8 +15,8 @@
     "check-types": "tsc --noEmit"
   },
   "devDependencies": {
-    "@template/eslint-config": "*",
-    "@template/typescript-config": "*",
+    "@cu-forum/eslint-config": "workspace:*",
+    "@cu-forum/typescript-config": "workspace:*",
     "@turbo/gen": "^2.5.4",
     "@types/node": "^22.15.29",
     "@types/react": "19.0.10",
@@ -27,12 +27,15 @@
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
     "@radix-ui/react-accordion": "^1.2.11",
+    "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-label": "^2.1.7",
+    "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/postcss": "^4.1.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.501.0",
+    "motion": "^12.23.12",
     "postcss": "^8.5.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

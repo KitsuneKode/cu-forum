@@ -1,0 +1,17 @@
+packages:
+  - apps/*
+  - packages/*
+  - tooling/*
+  - test/*
+
+
+onlyBuiltDependencies:
+  - '@prisma/client'
+  - '@prisma/engines'
+  - bcrypt
+  - core-js-pure
+  - es5-ext
+  - esbuild
+  - prisma
+  - sharp
+  - '@tailwindcss/oxide'

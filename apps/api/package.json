@@ -1,5 +1,5 @@
 {
-  "name": "@template/api",
+  "name": "@cu-forum/api",
   "module": "./src/server.ts",
   "type": "module",
   "private": true,
@@ -11,7 +11,7 @@
     "lint:fix": "bun run lint --fix"
   },
   "devDependencies": {
-    "@template/typescript-config": "*",
+    "@cu-forum/typescript-config": "workspace:*",
     "@types/bun": "latest",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
@@ -22,11 +22,11 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@template/backend-common": "*",
-    "@template/common": "*",
-    "@template/auth": "*",
-    "@template/store": "*",
-    "@template/trpc": "*",
+    "@cu-forum/backend-common": "workspace:*",
+    "@cu-forum/common": "workspace:*",
+    "@cu-forum/auth": "workspace:*",
+    "@cu-forum/store": "workspace:*",
+    "@cu-forum/trpc": "workspace:*",
     "cors": "^2.8.5",
     "express": "^5.1.0"
   }

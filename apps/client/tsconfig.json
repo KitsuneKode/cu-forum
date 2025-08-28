@@ -1,10 +1,14 @@
 {
-  "extends": "@template/typescript-config/nextjs.json",
+  "extends": "@cu-forum/typescript-config/nextjs.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@template/ui": ["../../packages/ui/src/*"]
+      "@cu-forum/ui": ["../../packages/ui/src/*"],
+      "@cu-forum/store": ["../../packages/store/src/*"],
+      "@cu-forum/auth": ["../../packages/auth/src/*"],
+      "@cu-forum/trpc": ["../../packages/trpc/src/*"],
+      "@cu-forum/common": ["../../packages/common/src/*"]
     },
     "plugins": [
       {

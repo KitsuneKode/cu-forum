@@ -6,7 +6,7 @@
   "tailwind": {
     "config": "",
     "css": "../../packages/ui/src/styles/globals.css",
-    "baseColor": "neutral",
+    "baseColor": "stone",
     "cssVariables": true
   },
   "iconLibrary": "lucide",
@@ -14,7 +14,10 @@
     "components": "@/components",
     "hooks": "@/hooks",
     "lib": "@/lib",
-    "utils": "@template/ui/lib/utils",
-    "ui": "@template/ui/components"
+    "utils": "@cu-forum/ui/lib/utils",
+    "ui": "@cu-forum/ui/components"
+  },
+  "registries": {
+    "@tailark": "https://tailark.com/r/{name}.json"
   }
 }

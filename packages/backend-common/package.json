@@ -1,5 +1,5 @@
 {
-  "name": "@template/backend-common",
+  "name": "@cu-forum/backend-common",
   "version": "1.0.0",
   "description": "",
   "main": "./src/index.ts",
@@ -15,11 +15,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@template/typescript-config": "*",
+    "@cu-forum/typescript-config": "workspace:*",
     "@types/bun": "latest"
   },
   "dependencies": {
-    "@template/common": "*"
+    "@cu-forum/common": "workspace:*"
   },
   "peerDependencies": {
     "typescript": "^5"

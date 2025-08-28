@@ -1,10 +1,9 @@
-import cors from 'cors'
-import express from 'express'
-import config from '@/utils/config'
-import { expressMiddleWare } from '@template/trpc'
-import { toNodeHandler, auth } from '@template/auth/server'
-import { expressMiddleWareSimple } from '@template/trpc/simp'
 import { timingMiddleWare } from '@/middlewares/timing-middleware'
+import { toNodeHandler, auth } from '@cu-forum/auth/server'
+import { expressMiddleWare } from '@cu-forum/trpc'
+import config from '@/utils/config'
+import express from 'express'
+import cors from 'cors'
 
 const app = express()
 
@@ -18,7 +17,7 @@ app.use(
 
 app.all('/api/auth/*splat', timingMiddleWare, toNodeHandler(auth))
 
-app.use('/api/trpc', expressMiddleWareSimple)
+app.use('/api/trpc', expressMiddleWare)
 
 app.use(express.json())
 

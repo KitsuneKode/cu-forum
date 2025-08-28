@@ -1,1 +1,1 @@
-export { default } from '@template/ui/postcss.config';
+export { default } from '@cu-forum/ui/postcss.config'

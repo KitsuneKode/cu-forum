@@ -1,4 +1,4 @@
-import { prisma } from '@/index'
+import { prisma } from '@cu-forum/store'
 
 // prisma
 //   .$connect()
@@ -16,17 +16,17 @@ prisma.user
   .createMany({
     data: [
       {
+        id: Bun.randomUUIDv7(),
         name: 'John Doe',
         email: 'john.doe@example.com',
-        password_hash: 'password_hash',
         emailVerified: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
+        id: Bun.randomUUIDv7(),
         name: 'Jane Doe',
         email: 'jane.doe@example.com',
-        password_hash: 'password_hash',
         emailVerified: false,
         createdAt: new Date(),
         updatedAt: new Date(),

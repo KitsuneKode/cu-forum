@@ -1,9 +1,14 @@
 {
-  "extends": "@template/typescript-config/backend.json",
+  "extends": "@cu-forum/typescript-config/backend.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"],
+      "@cu-forum/store": ["../../packages/store/src/*"],
+      "@cu-forum/auth": ["../../packages/auth/src/*"],
+      "@cu-forum/trpc": ["../../packages/trpc/src/*"],
+      "@cu-forum/backend-common": ["../../packages/trpc/backend-common/*"]
     }
-  }
+  },
+  "exclude": ["node_modules"]
 }

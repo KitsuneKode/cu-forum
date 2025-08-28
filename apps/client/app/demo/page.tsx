@@ -1,11 +1,11 @@
 'use client'
 import { useTRPC } from '@/trpc/client'
 import { useQuery } from '@tanstack/react-query'
-import { authClient } from '@template/auth/client'
+import { authClient } from '@cu-forum/auth/client'
 import React, { useReducer, useState } from 'react'
-import { Input } from '@template/ui/components/input'
-import { Label } from '@template/ui/components/label'
-import { Button } from '@template/ui/components/button'
+import { Input } from '@cu-forum/ui/components/input'
+import { Label } from '@cu-forum/ui/components/label'
+import { Button } from '@cu-forum/ui/components/button'
 
 const defaultFormValue = {
   email: '',

@@ -1,4 +1,4 @@
-# @template/backend-common
+# @cu-forum/backend-common
 
 To install dependencies:
 

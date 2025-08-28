@@ -1,5 +1,5 @@
 {
-  "name": "@template/auth",
+  "name": "@cu-forum/auth",
   "module": "src/app.ts",
   "type": "module",
   "private": true,
@@ -8,14 +8,14 @@
     "./client": "./src/client.ts"
   },
   "devDependencies": {
-    "@template/typescript-config": "*",
+    "@cu-forum/typescript-config": "workspace:*",
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
-    "@template/store": "*",
+    "@cu-forum/store": "workspace:*",
     "better-auth": "^1.2.12"
   }
 }

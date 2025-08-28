@@ -1,4 +1,4 @@
-# @template/common
+# @cu-forum/common
 
 To install dependencies:
 

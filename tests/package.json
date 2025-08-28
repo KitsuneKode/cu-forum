@@ -1,5 +1,5 @@
 {
-  "name": "@template/tests",
+  "name": "@cu-forum/tests",
   "module": "src/index.ts",
   "type": "module",
   "private": true,

@@ -1,5 +1,5 @@
 {
-  "name": "@template/eslint-config",
+  "name": "@cu-forum/eslint-config",
   "version": "0.0.0",
   "type": "module",
   "private": true,

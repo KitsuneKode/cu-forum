@@ -1,5 +1,5 @@
 {
-  "extends": "@template/typescript-config/react-library.json",
+  "extends": "@cu-forum/typescript-config/react-library.json",
   "compilerOptions": {
     "outDir": "dist"
   },

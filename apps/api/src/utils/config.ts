@@ -1,4 +1,4 @@
-import { ConfigLoader } from '@template/common/config-loader'
+import { ConfigLoader } from '@cu-forum/common/config-loader'
 
 const authConfigSchema = {
   jwtSecret: () => process.env.JWT_SECRET || '',

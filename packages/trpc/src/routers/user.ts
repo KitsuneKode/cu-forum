@@ -1,7 +1,7 @@
-import { z } from 'zod'
-import { prisma } from '@template/store'
+import { protectedProcedure, publicProcedure } from '@cu-forum/trpc/trpc'
 import type { TRPCRouterRecord } from '@trpc/server'
-import { protectedProcedure, publicProcedure } from '@/trpc'
+import { prisma } from '@cu-forum/store'
+import { z } from 'zod'
 
 export const userRouter = {
   getUser: publicProcedure.query(() => {

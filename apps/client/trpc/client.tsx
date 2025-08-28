@@ -2,8 +2,8 @@
 // ^-- to make sure we can mount the Provider from a server component
 import { useState } from 'react'
 import config from '@/utils/config'
+import type { AppRouter } from '@cu-forum/trpc'
 import { makeQueryClient } from './query-client'
-import type { AppRouter } from '@template/trpc/simp'
 import type { QueryClient } from '@tanstack/react-query'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { createTRPCClient, httpBatchLink } from '@trpc/client'

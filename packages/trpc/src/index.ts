@@ -1,6 +1,6 @@
-import { appRouter } from '@/routers'
-import { createTRPCContext } from '@/trpc'
-import type { AppRouter } from '@/routers'
+import { appRouter } from '@cu-forum/trpc/routers'
+import { createTRPCContext } from '@cu-forum/trpc/trpc'
+import type { AppRouter } from '@cu-forum/trpc/routers'
 import { createExpressMiddleware } from '@trpc/server/adapters/express'
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
 

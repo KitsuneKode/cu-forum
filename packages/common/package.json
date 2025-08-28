@@ -1,5 +1,5 @@
 {
-  "name": "@template/common",
+  "name": "@cu-forum/common",
   "version": "1.0.0",
   "description": "",
   "main": "./src/index.ts",
@@ -17,9 +17,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@template/typescript-config": "*",
-    "@types/bun": "latest",
-    "@types/winston": "^2.4.4"
+    "@cu-forum/typescript-config": "workspace:*",
+    "@types/bun": "latest"
   },
   "dependencies": {
     "date-fns": "^4.1.0",

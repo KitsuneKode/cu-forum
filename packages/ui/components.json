@@ -6,15 +6,18 @@
   "tailwind": {
     "config": "",
     "css": "src/styles/globals.css",
-    "baseColor": "neutral",
+    "baseColor": "stone",
     "cssVariables": true
   },
   "iconLibrary": "lucide",
   "aliases": {
-    "components": "@template/ui/components",
-    "utils": "@template/ui/lib/utils",
-    "hooks": "@template/ui/hooks",
-    "lib": "@template/ui/lib",
-    "ui": "@template/ui/components"
+    "components": "@cu-forum/ui/components",
+    "utils": "@cu-forum/ui/lib/utils",
+    "hooks": "@cu-forum/ui/hooks",
+    "lib": "@cu-forum/ui/lib",
+    "ui": "@cu-forum/ui/components"
   }
+,	"registries": {
+	  "@tailark": "https://tailark.com/r/{name}.json"
+	}
 }

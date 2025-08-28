@@ -1,11 +1,11 @@
 {
-  "extends": "@template/typescript-config/react-library.json",
+  "extends": "@cu-forum/typescript-config/react-library.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@template/ui/*": ["./src/*"]
+      "@cu-forum/ui/*": ["./src/*"]
     }
   },
-  "include": ["."],
+  "include": [".", "../../apps/client/components/theme-button.tsx", "../../apps/client/components/header.tsx", "../../apps/client/components/bottom-navigation.tsx", "../../apps/client/components/bottom-navigation-client.tsx"],
   "exclude": ["node_modules", "dist"]
 }
