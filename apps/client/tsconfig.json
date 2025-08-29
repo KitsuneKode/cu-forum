@@ -8,6 +8,7 @@
       "@cu-forum/store": ["../../packages/store/src/*"],
       "@cu-forum/auth": ["../../packages/auth/src/*"],
       "@cu-forum/trpc": ["../../packages/trpc/src/*"],
+      "@cu-forum/convex": ["../../packages/convex-backend/*"],
       "@cu-forum/common": ["../../packages/common/src/*"]
     },
     "plugins": [

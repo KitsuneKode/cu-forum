@@ -1,0 +1,27 @@
+{
+  "name": "@cu-forum/convex",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./convex/_generated/api.d.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./auth": "./src/lib/auth.ts",
+    "./auth/client": "./src/lib/auth-client.ts"
+  },
+  "devDependencies": {
+    "@cu-forum/typescript-config": "workspace:*",
+    "@types/bun": "latest"
+  },
+  "scripts": {
+    "dev": "pnpm convex dev",
+    "setup": "pnpm convex dev --until-success"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@convex-dev/better-auth": "^0.7.17",
+    "@cu-forum/auth": "workspace:*",
+    "convex": "^1.26.2"
+  }
+}

@@ -1,12 +1,16 @@
 'use client'
 import Image from 'next/image'
 import { useState } from 'react'
+import { api } from '@cu-forum/convex'
 import { Button } from '@cu-forum/ui/components/button'
+import { useQuery as convexUseQuery } from 'convex/react'
 import { Textarea } from '@cu-forum/ui/components/textarea'
 import { DomainEmailInput } from '@cu-forum/ui/components/email-domain-input'
 
 export default function Home() {
   const [email, setEmail] = useState('')
+
+  const convexData = convexUseQuery(api.task.get)
   return (
     <div className="flex min-h-svh items-center justify-center">
       <div className="flex flex-col items-center justify-center gap-4">
@@ -25,6 +29,9 @@ export default function Home() {
             description="Sign in with the official CU domain."
             required
           />
+          {convexData?.map((task) => (
+            <div key={task._id}>{task.text}</div>
+          ))}{' '}
         </main>
         <div>
           <footer className="row-start-3 flex flex-wrap items-center justify-center gap-[24px]">

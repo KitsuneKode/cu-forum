@@ -10,7 +10,6 @@
     "db:migrate:deploy": "turbo run db:migrate:deploy -filter=@cu-forum/store",
     "db:reset": "turbo run db:reset --filter=@cu-forum/store",
     "db:studio": "turbo run db:studio --filter=@cu-forum/store",
-
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
     "preinstall": "pnpm dlx only-allow pnpm"

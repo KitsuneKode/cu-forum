@@ -1,0 +1,5 @@
+{
+  "extends": "@cu-forum/typescript-config/backend.json",
+  "include": ["."],
+  "exclude": ["./convex/_generated", "node_modules"]
+}
