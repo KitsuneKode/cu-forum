@@ -3,7 +3,7 @@ import { requireEnv } from '@convex-dev/better-auth/utils'
 import { convex } from '@convex-dev/better-auth/plugins'
 import { convexAdapter } from '@convex-dev/better-auth'
 import { betterAuthComponent } from '../../convex/auth'
-import { betterAuth } from '@cu-forum/auth/server'
+import { betterAuth } from 'better-auth'
 
 const siteUrl = requireEnv('SITE_URL')
 

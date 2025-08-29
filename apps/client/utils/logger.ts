@@ -1,3 +1,3 @@
-import { createLogger } from '@cu-forum/common/logger'
+import { createLogger, type Logger } from '@cu-forum/common/logger'
 
-export const logger = createLogger('ototabi-client')
+export const logger: Logger = createLogger('cu-forum')

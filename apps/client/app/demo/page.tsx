@@ -1,6 +1,4 @@
 'use client'
-import { useTRPC } from '@/trpc/client'
-import { useQuery } from '@tanstack/react-query'
 import React, { useReducer, useState } from 'react'
 import { Input } from '@cu-forum/ui/components/input'
 import { Label } from '@cu-forum/ui/components/label'
@@ -37,11 +35,11 @@ function reducer(state: typeof defaultFormValue, action: Action) {
 }
 
 const Demo = () => {
-  const trpc = useTRPC()
+  // const trpc = useTRPC()
   const [signInState, setSignInState] = useState(false)
   const [signOutState, setSignOutState] = useState(false)
   const [state, dispatch] = useReducer(reducer, defaultFormValue)
-  const data = useQuery(trpc.user.hello.queryOptions({ text: 'hi' }))
+  // const data = useQuery(trpc.user.hello.queryOptions({ text: 'hi' }))
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -84,8 +82,8 @@ const Demo = () => {
   return (
     <>
       <div className="mb-10 flex items-center justify-center">
-        <h1>{data.isLoading && 'Loading...'}</h1>
-        {data.data && <p>{JSON.stringify(data.data, null, 2)}</p>}
+        {/* <h1>{data.isLoading && 'Loading...'}</h1>
+        {data.data && <p>{JSON.stringify(data.data, null, 2)}</p>} */}
       </div>
 
       {!signInState && !signOutState && (

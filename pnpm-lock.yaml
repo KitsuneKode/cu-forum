@@ -69,21 +69,12 @@ importers:
 
   apps/client:
     dependencies:
-      '@cu-forum/auth':
-        specifier: workspace:*
-        version: link:../../packages/auth
       '@cu-forum/common':
         specifier: workspace:*
         version: link:../../packages/common
       '@cu-forum/convex':
         specifier: workspace:*
         version: link:../../packages/convex-backend
-      '@cu-forum/store':
-        specifier: workspace:*
-        version: link:../../packages/store
-      '@cu-forum/trpc':
-        specifier: workspace:*
-        version: link:../../packages/trpc
       '@cu-forum/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -228,10 +219,10 @@ importers:
     dependencies:
       '@convex-dev/better-auth':
         specifier: ^0.7.17
-        version: 0.7.17(@standard-schema/spec@1.0.0)(better-auth@1.3.7(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(zod@3.25.76))(convex@1.26.2(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.8.2)
-      '@cu-forum/auth':
-        specifier: workspace:*
-        version: link:../auth
+        version: 0.7.17(@standard-schema/spec@1.0.0)(better-auth@1.3.7(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(zod@4.1.4))(convex@1.26.2(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.8.2)
+      better-auth:
+        specifier: 1.3.7
+        version: 1.3.7(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(zod@4.1.4)
       convex:
         specifier: ^1.26.2
         version: 1.26.2(react@19.1.1)
@@ -4025,9 +4016,9 @@ snapshots:
 
   '@colors/colors@1.6.0': {}
 
-  '@convex-dev/better-auth@0.7.17(@standard-schema/spec@1.0.0)(better-auth@1.3.7(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(zod@3.25.76))(convex@1.26.2(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.8.2)':
+  '@convex-dev/better-auth@0.7.17(@standard-schema/spec@1.0.0)(better-auth@1.3.7(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(zod@4.1.4))(convex@1.26.2(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.8.2)':
     dependencies:
-      better-auth: 1.3.7(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(zod@3.25.76)
+      better-auth: 1.3.7(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(zod@4.1.4)
       common-tags: 1.8.2
       convex: 1.26.2(react@19.1.1)
       convex-helpers: 0.1.104(@standard-schema/spec@1.0.0)(convex@1.26.2(react@19.1.1))(react@19.1.1)(typescript@5.8.2)(zod@3.25.76)
@@ -5326,24 +5317,6 @@ snapshots:
   base64-js@1.5.1: {}
 
   basic-ftp@5.0.5: {}
-
-  better-auth@1.3.7(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(zod@3.25.76):
-    dependencies:
-      '@better-auth/utils': 0.2.6
-      '@better-fetch/fetch': 1.1.18
-      '@noble/ciphers': 0.6.0
-      '@noble/hashes': 1.8.0
-      '@simplewebauthn/browser': 13.1.2
-      '@simplewebauthn/server': 13.1.2
-      better-call: 1.0.16
-      defu: 6.1.4
-      jose: 5.10.0
-      kysely: 0.28.5
-      nanostores: 0.11.4
-      zod: 3.25.76
-    optionalDependencies:
-      react: 19.1.1
-      react-dom: 19.1.1(react@19.1.1)
 
   better-auth@1.3.7(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(zod@4.1.4):
     dependencies:

@@ -41,7 +41,7 @@ export const authWithPrisma = betterAuth({
 
   advanced: {
     database: {
-      generateId: () => Bun.randomUUIDv7(),
+      generateId: () => crypto.randomUUID(),
     },
   },
   callbacks: {

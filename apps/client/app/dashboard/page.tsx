@@ -2,10 +2,6 @@ import { AppSidebar } from '@cu-forum/ui/components/app-sidebar'
 import { SiteHeader } from '@cu-forum/ui/components/site-header'
 import { SidebarInset, SidebarProvider } from '@cu-forum/ui/components/sidebar'
 
-export const iframeHeight = '800px'
-
-export const description = 'A sidebar with a header and a search form.'
-
 export default function Page() {
   return (
     <div className="[--header-height:calc(--spacing(14))]">
