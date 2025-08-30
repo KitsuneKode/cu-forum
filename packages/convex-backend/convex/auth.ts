@@ -18,7 +18,12 @@ export const { createUser, updateUser, deleteUser, createSession, isAuthenticate
   betterAuthComponent.createAuthFunctions<DataModel>({
     // Must create a user and return the user id
     onCreateUser: async (ctx, user) => {
-      return ctx.db.insert('users', {})
+      return ctx.db.insert('users', {
+        emailVerified: user.emailVerified,
+        email: user.email,
+
+        name: user.name,
+      })
     },
 
     // Delete the user when they are deleted from Better Auth

@@ -5,6 +5,7 @@
   "types": "./convex/_generated/api.d.ts",
   "exports": {
     ".": "./src/index.ts",
+    "./auth": "./src/lib/auth.ts",
     "./auth/client": "./src/lib/auth-client.ts"
   },
   "devDependencies": {
