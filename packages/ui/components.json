@@ -16,8 +16,8 @@
     "hooks": "@cu-forum/ui/hooks",
     "lib": "@cu-forum/ui/lib",
     "ui": "@cu-forum/ui/components"
+  },
+  "registries": {
+    "@tailark": "https://tailark.com/r/{name}.json"
   }
-,	"registries": {
-	  "@tailark": "https://tailark.com/r/{name}.json"
-	}
 }

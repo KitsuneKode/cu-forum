@@ -9,6 +9,7 @@
  */
 
 import type * as auth from "../auth.js";
+import type * as communities from "../communities.js";
 import type * as http from "../http.js";
 import type * as task from "../task.js";
 
@@ -28,6 +29,7 @@ import type {
  */
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
+  communities: typeof communities;
   http: typeof http;
   task: typeof task;
 }>;

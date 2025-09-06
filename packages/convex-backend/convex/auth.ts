@@ -1,6 +1,7 @@
 import { BetterAuth, type AuthFunctions, type PublicAuthFunctions } from '@convex-dev/better-auth'
 import { api, components, internal } from './_generated/api'
 import type { Id, DataModel } from './_generated/dataModel'
+import { createAuth } from '../src/lib/auth'
 import { query } from './_generated/server'
 
 // Typesafe way to pass Convex functions defined in this file
@@ -20,9 +21,8 @@ export const { createUser, updateUser, deleteUser, createSession, isAuthenticate
     onCreateUser: async (ctx, user) => {
       return ctx.db.insert('users', {
         emailVerified: user.emailVerified,
-        email: user.email,
-
         name: user.name,
+        email: user.email,
       })
     },
 

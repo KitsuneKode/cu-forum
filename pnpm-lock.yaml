@@ -8,6 +8,12 @@ importers:
 
   .:
     devDependencies:
+      '@cu-forum/eslint-config':
+        specifier: workspace:*
+        version: link:tooling/eslint-config
+      '@cu-forum/typescript-config':
+        specifier: workspace:*
+        version: link:tooling/typescript-config
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
@@ -78,6 +84,9 @@ importers:
       '@cu-forum/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@radix-ui/react-label':
+        specifier: ^2.1.7
+        version: 2.1.7(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@radix-ui/react-slot':
         specifier: ^1.2.3
         version: 1.2.3(@types/react@19.0.10)(react@19.1.1)

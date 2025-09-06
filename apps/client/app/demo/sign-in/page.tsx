@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import { api } from '@cu-forum/convex'
+import { createPost } from '@/app/actions/token'
+import { Input } from '@cu-forum/ui/components/input'
 import { Button } from '@cu-forum/ui/components/button'
 import { authClient } from '@cu-forum/convex/auth/client'
 import {
@@ -28,10 +30,21 @@ export default function App() {
 }
 
 function Dashboard() {
+  const [text, setText] = useState('')
   const user = useQuery(api.auth.getCurrentUser)
   return (
-    <div>
+    <div className="space-3 flex flex-col gap-2 text-center">
       <div>Hello {user?.name}!</div>
+      <Input
+        placeholder="text"
+        value={text}
+        onChange={(e) => {
+          e.preventDefault()
+          setText(e.currentTarget.value)
+        }}
+      />
+      <Button onClick={() => createPost(text)}>Create Post</Button>
+
       <Button onClick={() => authClient.signOut()}>Sign out</Button>
     </div>
   )

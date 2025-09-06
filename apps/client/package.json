@@ -12,9 +12,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@cu-forum/convex": "workspace:*",
     "@cu-forum/common": "workspace:*",
+    "@cu-forum/convex": "workspace:*",
     "@cu-forum/ui": "workspace:*",
+    "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "@tanstack/react-query": "^5.82.0",
     "@trpc/client": "^11.4.3",
