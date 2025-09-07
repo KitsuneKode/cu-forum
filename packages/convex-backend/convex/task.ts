@@ -1,5 +1,5 @@
 import { mutation, query } from './_generated/server'
-import { v } from 'convex/values'
+import { ConvexError, v } from 'convex/values'
 
 export const create = mutation({
   args: {
@@ -7,6 +7,14 @@ export const create = mutation({
     isCompleted: v.boolean(),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity()
+    console.log(identity)
+
+    if (!identity) {
+      throw new ConvexError({
+        code: 'UNAUTHORIZED',
+      })
+    }
     return await ctx.db.insert('tasks', {
       ...args,
     })

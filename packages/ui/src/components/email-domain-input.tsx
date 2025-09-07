@@ -1,11 +1,5 @@
 // DomainEmailInput.tsx
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from './select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './select'
 import { Input } from '@cu-forum/ui/components/input'
 import { cn } from '@cu-forum/ui/lib/utils'
 import * as React from 'react'
@@ -15,6 +9,7 @@ export type DomainEmailInputProps = {
   defaultDomain?: string
   value?: string
   onChange?: (email: string) => void
+  onValidationChange?: (isValid: boolean) => void
   label?: string
   description?: string
   error?: string
@@ -36,6 +31,7 @@ export const DomainEmailInput = React.memo(
       defaultDomain,
       value,
       onChange,
+      onValidationChange,
       label,
       description,
       error,
@@ -124,13 +120,27 @@ export const DomainEmailInput = React.memo(
     const isInvalidUsername =
       username.length > 0 && !/^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+$/.test(username)
 
+    // Check if email is valid (has username, valid format, and no external error)
+    const isValidEmail = username.length > 0 && !isInvalidUsername && !error
+
+    // Notify parent component of validation state changes
+    React.useEffect(() => {
+      onValidationChange?.(isValidEmail)
+    }, [isValidEmail, onValidationChange])
+
     return (
-      <div className={cn('w-full', className)}>
+      <div
+        className={cn(
+          'w-full',
+
+          className,
+        )}
+      >
         {label && (
           <label
             htmlFor={id}
             id={id ? `${id}-label` : undefined}
-            className="text-foreground mb-1 block text-sm font-medium"
+            className="text-foreground mb-2 block text-sm font-medium"
           >
             {label}
           </label>
@@ -149,7 +159,7 @@ export const DomainEmailInput = React.memo(
           <Input
             ref={ref}
             id={id}
-            name={`${name}__username`}
+            name={`${name}`}
             autoComplete={autoComplete}
             placeholder={placeholder}
             required={required}
@@ -203,7 +213,7 @@ export const DomainEmailInput = React.memo(
 
         {(error || isInvalidUsername) && (
           <p id={`${id}-error`} className="text-destructive mt-1 text-xs">
-            {error || 'Please enter a valid username'}
+            {error || 'Please enter a valid UID'}
           </p>
         )}
       </div>

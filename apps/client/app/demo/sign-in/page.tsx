@@ -74,6 +74,7 @@ function SignIn() {
           name: formData.get('name') as string,
           email: formData.get('email') as string,
           password: formData.get('password') as string,
+          username: formData.get('username') as string,
         },
         {
           onError: (ctx) => {
@@ -89,6 +90,7 @@ function SignIn() {
       <form onSubmit={handleSubmit}>
         {!showSignIn && <input name="name" placeholder="Name" />}
         <input type="email" name="email" placeholder="Email" />
+        <input type="username" name="username" placeholder="Username" />
         <input type="password" name="password" placeholder="Password" />
         <Button type="submit">{showSignIn ? 'Sign in' : 'Sign up'}</Button>
       </form>

@@ -3,6 +3,8 @@ import { requireEnv } from '@convex-dev/better-auth/utils'
 import { convex } from '@convex-dev/better-auth/plugins'
 import { convexAdapter } from '@convex-dev/better-auth'
 import { betterAuthComponent } from '../../convex/auth'
+import { nextCookies } from 'better-auth/next-js'
+import { username } from 'better-auth/plugins'
 import { betterAuth } from 'better-auth'
 
 const siteUrl = requireEnv('SITE_URL')
@@ -21,6 +23,8 @@ export const createAuth = (ctx: GenericCtx) =>
     },
     plugins: [
       // The Convex plugin is required
+      username(),
       convex(),
+      nextCookies(),
     ],
   })

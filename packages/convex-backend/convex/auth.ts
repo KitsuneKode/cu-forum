@@ -1,6 +1,6 @@
 import { BetterAuth, type AuthFunctions, type PublicAuthFunctions } from '@convex-dev/better-auth'
 import { api, components, internal } from './_generated/api'
-import type { Id, DataModel } from './_generated/dataModel'
+import type { DataModel, Id } from './_generated/dataModel'
 import { createAuth } from '../src/lib/auth'
 import { query } from './_generated/server'
 
@@ -23,6 +23,7 @@ export const { createUser, updateUser, deleteUser, createSession, isAuthenticate
         emailVerified: user.emailVerified,
         name: user.name,
         email: user.email,
+        username: user.username!,
       })
     },
 
@@ -49,5 +50,54 @@ export const getCurrentUser = query({
       ...user,
       ...userMetadata,
     }
+  },
+})
+
+export const getSession = query({
+  args: {},
+  handler: async (ctx) => {
+    const auth = createAuth(ctx)
+
+    // Get an access token for a user by id
+
+    // For auth.api methods that require a session (such as
+    // getSession()), you can use the getHeaders method to
+    // get a headers object
+    const headers = await betterAuthComponent.getHeaders(ctx)
+    const session = await auth.api.getSession({
+      headers,
+    })
+    if (!session) {
+      return null
+    }
+    // Do something with the session
+    return session
+  },
+})
+
+export const getUserServer = query({
+  args: {},
+  handler: async (ctx) => {
+    // You can get the user id directly from Convex via ctx.auth
+    const identity = await ctx.auth.getUserIdentity()
+    if (!identity) {
+      return null
+    }
+    // For now the id type requires an assertion
+    const userIdFromCtx = identity.subject as Id<'users'>
+
+    // The component provides a convenience method to get the user id
+    const userId = await betterAuthComponent.getAuthUserId(ctx)
+    if (!userId) {
+      return null
+    }
+
+    const user = await ctx.db.get(userId as Id<'users'>)
+
+    // Get user email and other metadata from the Better Auth component
+    const userMetadata = await betterAuthComponent.getAuthUser(ctx)
+
+    // You can combine them if you want
+    return { ...userMetadata, ...user }
   },
 })

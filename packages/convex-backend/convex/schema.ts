@@ -3,11 +3,15 @@ import { v } from 'convex/values'
 
 export default defineSchema({
   users: defineTable({
-    // name: v.string(),
+    email: v.string(),
+    emailVerified: v.boolean(),
+    name: v.string(),
+    username: v.string(),
     // Fields are optional
-  }),
-  // .index('by_email', ['email'])
-  // .index('by_name', ['name']),
+  })
+    .index('by_email', ['email'])
+    .index('by_username', ['username']),
+
   tasks: defineTable({
     text: v.string(),
     isCompleted: v.boolean(),
