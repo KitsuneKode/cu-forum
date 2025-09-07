@@ -1,5 +1,4 @@
 import { Suspense } from 'react'
-import Demo from '@/components/demo'
 import { Loader } from 'lucide-react'
 import Login from '@/components/login'
 import { fetchQuery } from 'convex/nextjs'
@@ -25,7 +24,6 @@ export default async function LoginPage() {
       }
     >
       <Login />
-      <Demo />
     </Suspense>
   )
 }

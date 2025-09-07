@@ -1,17 +1,19 @@
 'use client'
 import React from 'react'
 import Link from 'next/link'
-import { Menu, X } from 'lucide-react'
 import { Logo } from '@/components/logo'
 import { cn } from '@cu-forum/ui/lib/utils'
+import { Loader, Menu, X } from 'lucide-react'
 import ModeToggle from '@/components/theme-button'
 import { Button } from '@cu-forum/ui/components/button'
+import { authClient } from '@cu-forum/convex/lib/auth-client'
+import { AuthLoading, Authenticated, Unauthenticated } from 'convex/react'
 
 const menuItems = [
-  { name: 'Features', href: '#link' },
-  { name: 'Solution', href: '#link' },
-  { name: 'Pricing', href: '#link' },
-  { name: 'About', href: '#link' },
+  { name: 'Dashboard', href: '/dashboard' },
+  { name: 'demo', href: '/demo' },
+  { name: 'Chat', href: '/chat/12' },
+  { name: 'Demo Login', href: '/demo/sign-in' },
 ]
 
 export default function NavBar() {
@@ -90,34 +92,51 @@ export default function NavBar() {
               </div>
               <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                 <ModeToggle />
-                <Button
-                  asChild
-                  variant="outline"
-                  size="sm"
-                  className={cn(isScrolled && 'lg:hidden')}
-                >
-                  <Link href="#">
-                    <span>Login</span>
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  size="sm"
-                  className={cn(isScrolled && 'lg:hidden')}
-                >
-                  <Link href="#">
-                    <span>Sign Up</span>
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  size="sm"
-                  className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}
-                >
-                  <Link href="#">
-                    <span>Get Started</span>
-                  </Link>
-                </Button>
+
+                <AuthLoading>
+                  <div className="flex items-center justify-center">
+                    <Loader className="h-5 w-5 animate-spin" />
+                  </div>
+                </AuthLoading>
+                <Authenticated>
+                  <Button
+                    onClick={async () => await authClient.signOut()}
+                    size="sm"
+                    className={cn('lg:inline-flex')}
+                  >
+                    <span>Sign Out</span>
+                  </Button>
+                </Authenticated>
+                <Unauthenticated>
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="sm"
+                    className={cn(isScrolled && 'lg:hidden')}
+                  >
+                    <Link href="/login">
+                      <span>Login</span>
+                    </Link>
+                  </Button>
+                  <Button
+                    asChild
+                    size="sm"
+                    className={cn(isScrolled && 'lg:hidden')}
+                  >
+                    <Link href="/sign-up">
+                      <span>Sign Up</span>
+                    </Link>
+                  </Button>
+                  <Button
+                    asChild
+                    size="sm"
+                    className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}
+                  >
+                    <Link href="/login">
+                      <span>Get Started</span>
+                    </Link>
+                  </Button>
+                </Unauthenticated>
               </div>
             </div>
           </div>

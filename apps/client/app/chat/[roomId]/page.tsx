@@ -3,7 +3,7 @@ import { Textarea } from '@cu-forum/ui/components/textarea'
 
 export default function ChatPage() {
   return (
-    <div>
+    <div className="flex h-screen">
       chat page
       <Button>Send</Button>
       <Textarea />

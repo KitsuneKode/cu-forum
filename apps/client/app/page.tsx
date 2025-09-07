@@ -12,7 +12,7 @@ export default function Home() {
 
   const convexData = convexUseQuery(api.task.get)
   return (
-    <div className="flex min-h-svh items-center justify-center">
+    <div className="flex h-[calc(200vh)] items-center justify-center">
       <div className="flex flex-col items-center justify-center gap-4">
         <main className="row-start-2 flex flex-col items-center gap-[32px] sm:items-center">
           <h1 className="text-2xl font-bold">Hello World</h1>
