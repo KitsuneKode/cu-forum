@@ -3,11 +3,18 @@ import React from 'react'
 import Link from 'next/link'
 import { Logo } from '@/components/logo'
 import { cn } from '@cu-forum/ui/lib/utils'
+import { api } from '@cu-forum/convex/index'
 import { Loader, Menu, X } from 'lucide-react'
 import ModeToggle from '@/components/theme-button'
 import { Button } from '@cu-forum/ui/components/button'
+import { NavUser } from '@cu-forum/ui/components/nav-user'
 import { authClient } from '@cu-forum/convex/lib/auth-client'
-import { AuthLoading, Authenticated, Unauthenticated } from 'convex/react'
+import {
+  AuthLoading,
+  Authenticated,
+  Unauthenticated,
+  useQuery,
+} from 'convex/react'
 
 const menuItems = [
   { name: 'Dashboard', href: '/dashboard' },
@@ -19,6 +26,8 @@ const menuItems = [
 export default function NavBar() {
   const [menuState, setMenuState] = React.useState(false)
   const [isScrolled, setIsScrolled] = React.useState(false)
+
+  const user = useQuery(api.auth.getCurrentUser)
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -106,6 +115,14 @@ export default function NavBar() {
                   >
                     <span>Sign Out</span>
                   </Button>
+                  <NavUser
+                    compact={true}
+                    user={{
+                      name: user?.name!,
+                      email: user?.email!,
+                      avatar: '/avatars/shadcn.jpg',
+                    }}
+                  />
                 </Authenticated>
                 <Unauthenticated>
                   <Button

@@ -1,8 +1,9 @@
 import { BetterAuth, type AuthFunctions, type PublicAuthFunctions } from '@convex-dev/better-auth'
 import { api, components, internal } from './_generated/api'
 import type { DataModel, Id } from './_generated/dataModel'
+import { mutation, query } from './_generated/server'
 import { createAuth } from '../src/lib/auth'
-import { query } from './_generated/server'
+import { v } from 'convex/values'
 
 // Typesafe way to pass Convex functions defined in this file
 const authFunctions: AuthFunctions = internal.auth
@@ -99,5 +100,32 @@ export const getUserServer = query({
 
     // You can combine them if you want
     return { ...userMetadata, ...user }
+  },
+})
+
+export const myFunction = mutation({
+  args: {
+    image: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const auth = createAuth(ctx)
+    const headers = await betterAuthComponent.getHeaders(ctx)
+    const session = await auth.api.getSession({
+      headers,
+    })
+    if (!session) {
+      return null
+    }
+    // Do something with the session
+    const user = await auth.api.updateUser({
+      body: {
+        image: args.image,
+      },
+      headers,
+    })
+
+    console.log(user.status)
+    console.log(user)
+    return user
   },
 })
