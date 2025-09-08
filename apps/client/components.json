@@ -12,12 +12,13 @@
   "iconLibrary": "lucide",
   "aliases": {
     "components": "@/components",
-    "hooks": "@/hooks",
-    "lib": "@/lib",
     "utils": "@cu-forum/ui/lib/utils",
-    "ui": "@cu-forum/ui/components"
+    "ui": "@cu-forum/ui/components",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
   },
   "registries": {
-    "@tailark": "https://tailark.com/r/{name}.json"
+    "@tailark": "https://tailark.com/r/{name}.json",
+    "@smoothui": "https://smoothui.dev/r/{name}.json"
   }
 }

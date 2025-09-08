@@ -25,6 +25,7 @@ export const { createUser, updateUser, deleteUser, createSession, isAuthenticate
         name: user.name,
         email: user.email,
         username: user.username!,
+        image: user.image || undefined,
       })
     },
 

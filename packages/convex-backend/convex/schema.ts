@@ -7,6 +7,7 @@ export default defineSchema({
     emailVerified: v.boolean(),
     name: v.string(),
     username: v.string(),
+    image: v.optional(v.string()),
     // Fields are optional
   })
     .index('by_email', ['email'])

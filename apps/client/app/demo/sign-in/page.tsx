@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { api } from '@cu-forum/convex'
-import { createPost } from '@/app/actions/token'
+import { createPost } from '@/actions/token'
 import { Input } from '@cu-forum/ui/components/input'
 import { Button } from '@cu-forum/ui/components/button'
 import { authClient } from '@cu-forum/convex/auth/client'

@@ -6,7 +6,9 @@ import { cn } from '@cu-forum/ui/lib/utils'
 import { api } from '@cu-forum/convex/index'
 import { Loader, Menu, X } from 'lucide-react'
 import ModeToggle from '@/components/theme-button'
+import LoginModal from './modals/examples/login-modal'
 import { Button } from '@cu-forum/ui/components/button'
+import SignUpModal from './modals/examples/sign-up-modal'
 import { NavUser } from '@cu-forum/ui/components/nav-user'
 import { authClient } from '@cu-forum/convex/lib/auth-client'
 import {
@@ -125,34 +127,28 @@ export default function NavBar() {
                   />
                 </Authenticated>
                 <Unauthenticated>
-                  <Button
-                    asChild
-                    variant="outline"
-                    size="sm"
-                    className={cn(isScrolled && 'lg:hidden')}
-                  >
-                    <Link href="/login">
-                      <span>Login</span>
-                    </Link>
-                  </Button>
-                  <Button
-                    asChild
-                    size="sm"
-                    className={cn(isScrolled && 'lg:hidden')}
-                  >
-                    <Link href="/sign-up">
-                      <span>Sign Up</span>
-                    </Link>
-                  </Button>
-                  <Button
-                    asChild
-                    size="sm"
-                    className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}
-                  >
-                    <Link href="/login">
-                      <span>Get Started</span>
-                    </Link>
-                  </Button>
+                  <LoginModal>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className={cn(isScrolled && 'lg:hidden')}
+                    >
+                      Login
+                    </Button>
+                  </LoginModal>
+                  <SignUpModal>
+                    <Button size="sm" className={cn(isScrolled && 'lg:hidden')}>
+                      Sign Up
+                    </Button>
+                  </SignUpModal>
+                  <SignUpModal>
+                    <Button
+                      size="sm"
+                      className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}
+                    >
+                      Get Started
+                    </Button>
+                  </SignUpModal>
                 </Unauthenticated>
               </div>
             </div>
