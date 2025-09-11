@@ -1,4 +1,4 @@
-import { authWithPrisma as auth, fromNodeHeaders } from '@cu-forum/auth/server'
+import { auth, fromNodeHeaders } from '@cu-forum/auth/server'
 import * as trpcExpress from '@trpc/server/adapters/express'
 import { initTRPC, TRPCError } from '@trpc/server'
 import { prisma as db } from '@cu-forum/store'

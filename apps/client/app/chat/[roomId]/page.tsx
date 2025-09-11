@@ -1,34 +1,47 @@
-import { fetchMutation } from 'convex/nextjs'
-import { api, getToken } from '@cu-forum/convex/index'
-import { createAuth } from '@cu-forum/convex/lib/auth'
+import { headers } from 'next/headers'
+import { auth } from '@cu-forum/auth/server'
 import { Button } from '@cu-forum/ui/components/button'
 import { Textarea } from '@cu-forum/ui/components/textarea'
 
 export default async function ChatPage() {
   const handleSubmit = async () => {
     'use server'
-    const token = await getToken(createAuth)
-    const image = '/avatars/image.png'
-    const response = await fetchMutation(
-      api.auth.myFunction,
-      { image },
-      {
-        token,
-      },
-    ).catch((e) => {
-      console.log(e)
-    })
-    console.log(response)
+    // const authC = await auth.api.verifyEmailOTP({
+    //   body: {
+    //     email: '22BAI71220@cuchd.in',
+    //     otp: '211766',
+    //   },
+    //   headers: await headers(),
+    // }).catch((e) => {
+    //   console.error(e.message)
+    // })
+    // const authC1 = await auth.api.sendVerificationOTP({
+    //   body: {
+    //     email: '22BAI71220@cuchd.in',
+    //     type: 'email-verification',
+    //   },
+    //   headers: await headers(),
+    // })
+    // console.log(authC)
+    // console.log(authC1)
   }
 
+  const accounts = await auth.api.getSession({
+    headers: await headers(),
+  })
+
   return (
-    <form action={handleSubmit}>
+    <form
+      className="flex h-screen w-screen flex-col items-center justify-center"
+      action={handleSubmit}
+    >
       <div className="flex h-screen w-screen flex-col items-center justify-center">
         chat page
         <Button>Send</Button>
         <div className="flex h-full w-full flex-col items-center justify-center">
-          <Button type="submit">Change Image</Button>
+          <Button type="submit">Verify</Button>
         </div>
+        <div>{JSON.stringify(accounts)}</div>
         <Textarea />
       </div>
     </form>

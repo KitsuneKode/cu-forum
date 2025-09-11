@@ -1,4 +1,3 @@
 {
-  "extends": "@cu-forum/typescript-config/backend.json",
-
+  "extends": "@cu-forum/typescript-config/backend.json"
 }

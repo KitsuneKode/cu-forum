@@ -13,7 +13,6 @@
     "@types/bun": "latest"
   },
   "scripts": {
-    "dev": "pnpm convex dev",
     "setup": "pnpm convex dev --until-success"
   },
   "peerDependencies": {

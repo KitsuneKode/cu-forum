@@ -1,17 +1,17 @@
 import { Suspense } from 'react'
 import { Loader } from 'lucide-react'
+import { headers } from 'next/headers'
 import Login from '@/components/login'
-import { fetchQuery } from 'convex/nextjs'
 import { redirect } from 'next/navigation'
-import { createAuth } from '@cu-forum/convex/auth'
-import { api, getToken } from '@cu-forum/convex/index'
+import { auth } from '@cu-forum/auth/server'
 
 export default async function LoginPage() {
-  const token = await getToken(createAuth)
-  const auth = await fetchQuery(api.auth.getCurrentUser, {}, { token })
+  const session = await auth.api.getSession({
+    headers: await headers(), // you need to pass the headers object.
+  })
 
-  console.log(auth)
-  if (auth) {
+  console.log(session)
+  if (session) {
     redirect('/dashboard')
   }
 
