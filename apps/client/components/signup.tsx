@@ -85,7 +85,7 @@ export default function SignUp({ modal = false }: { modal?: boolean }) {
     startTransition(async () => {
       const { data } = await authClient.signUp.email(
         {
-          email,
+          email: email.toLowerCase(),
           password,
           name,
           username: debouncedUserName,
@@ -100,7 +100,7 @@ export default function SignUp({ modal = false }: { modal?: boolean }) {
         console.log(data)
         await authClient.emailOtp.sendVerificationOtp(
           {
-            email,
+            email: email.toLowerCase(),
             type: 'email-verification',
           },
           {
@@ -154,7 +154,7 @@ export default function SignUp({ modal = false }: { modal?: boolean }) {
                 startVerificationTransaction(async () => {
                   await authClient.emailOtp.verifyEmail(
                     {
-                      email,
+                      email: email.toLowerCase(),
                       otp,
                     },
                     {

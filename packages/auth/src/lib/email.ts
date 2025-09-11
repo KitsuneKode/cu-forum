@@ -16,3 +16,12 @@ export const sendEmail = (to: string, otp: string) => {
     }),
   })
 }
+
+export const sendVerificationCompleteEmail = (to: string) => {
+  return resend.emails.send({
+    from: 'CU-Forum <onboarding@kitsunelabs.xyz>',
+    to: [to],
+    subject: 'Verify your email for CU-Forum',
+    html: '<h1>Verify your email for CU-Forum</h1><p>Thank you for verifying your email. You can now login to your account.</p>',
+  })
+}

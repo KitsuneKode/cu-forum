@@ -1,10 +1,10 @@
 import { betterAuth, type User } from 'better-auth'
 import { prisma } from '@cu-forum/store'
 export { fromNodeHeaders, toNodeHandler } from 'better-auth/node'
+import { sendEmail, sendVerificationCompleteEmail } from './lib/email'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
 import { emailOTP, username } from 'better-auth/plugins'
 import { nextCookies } from 'better-auth/next-js'
-import { sendEmail } from './lib/email'
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -14,19 +14,32 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
-    sendResetPassword: async ({ user, url, token }) => { },
+    sendResetPassword: async ({ user, url, token }) => {},
+  },
+  account: {
+    accountLinking: {
+      enabled: true,
+    },
   },
 
+  logger: {
+    enabled: true,
+    level: 'debug',
+  },
   emailVerification: {
     sendOnSignIn: false,
-    sendOnSignUp: true,
+    sendOnSignUp: false,
     autoSignInAfterVerification: true,
     async afterEmailVerification(user, request) {
       // Your custom logic here, e.g., grant access to premium features
       console.log(`${user.email} has been successfully verified!`)
+      const { data, error } = await sendVerificationCompleteEmail(user.email)
+      if (error) {
+        return console.error({ error })
+      }
+      data && console.log({ data })
     },
   },
-
   session: {
     updateAge: 60 * 60 * 24, // 1 day (every 1 day the session expiration is updated)
     cookieCache: {
@@ -48,21 +61,21 @@ export const auth = betterAuth({
     },
   },
 
-  // advanced: {
-  //   database: {
-  //     generateId: () => crypto.randomUUID(),
-  //   },
-  // },
-  // callbacks: {
-  //   onUserCreated: async (user: User) => {
-  //     console.log('New user created:', user.email)
-  //   },
-  // },
+  advanced: {
+    database: {
+      generateId: () => crypto.randomUUID(),
+    },
+  },
+  callbacks: {
+    onUserCreated: async (user: User) => {
+      console.log('New user created:', user.email)
+    },
+  },
   plugins: [
     emailOTP({
       overrideDefaultEmailVerification: true,
       sendVerificationOnSignUp: false,
-
+      disableSignUp: true,
       async sendVerificationOTP({ email, otp, type }) {
         console.log(email)
         const user = await prisma.user
@@ -75,11 +88,9 @@ export const auth = betterAuth({
             console.log(error)
           })
 
-        // if (!user) {
-        //   throw new Error('User not found')
-        // }
-
-        const currentYear = new Date().getFullYear()
+        if (!user) {
+          throw new Error('User not found')
+        }
 
         if (type === 'sign-in') {
           return
@@ -106,20 +117,25 @@ export const auth = betterAuth({
             }
           }
 
-          // // Send the OTP for email verification
-          // const { data, error } = await sendEmail(email, otp)
-          // if (error) {
-          //   return console.error({ error })
-          // }
-          // console.log({ data })
-          console.log(otp)
+          // Send the OTP for email verification
+          const { data, error } = await sendEmail(email, otp)
+          if (error) {
+            return console.error({ error })
+          }
+          data && console.log({ data })
+          error &&
+            console.error(`Error sending email verification OTP for ${email}. error: ${error}`)
         } else {
           // Send the OTP for password reset
         }
       },
       expiresIn: 600,
     }),
-    username(),
+    username({
+      usernameNormalization: (username) => {
+        return username.toLowerCase()
+      },
+    }),
     nextCookies(),
   ], // make sure this is the last plugin in the array
 })

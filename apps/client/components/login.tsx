@@ -42,7 +42,7 @@ export default function Login({ modal = false }: { modal?: boolean }) {
     startTransition(async () => {
       await authClient.signIn.email(
         {
-          email,
+          email: email.toLowerCase(),
           password,
           callbackURL: '/dashboard',
           rememberMe: true,
@@ -60,7 +60,7 @@ export default function Login({ modal = false }: { modal?: boolean }) {
             }
           },
           onSuccess: () => {
-            router.push('/dashboard')
+            toast.success('Successfully signed in')
           },
         },
       )
@@ -73,7 +73,7 @@ export default function Login({ modal = false }: { modal?: boolean }) {
     startVerificationTransaction(async () => {
       await authClient.emailOtp.sendVerificationOtp(
         {
-          email,
+          email: email.toLowerCase(),
           type: 'email-verification',
         },
         {
@@ -122,7 +122,7 @@ export default function Login({ modal = false }: { modal?: boolean }) {
                 startVerificationTransaction(async () => {
                   await authClient.emailOtp.verifyEmail(
                     {
-                      email,
+                      email: email.toLowerCase(),
                       otp,
                     },
                     {

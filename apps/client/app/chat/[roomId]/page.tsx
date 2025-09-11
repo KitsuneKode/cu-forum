@@ -26,14 +26,22 @@ export default async function ChatPage() {
     // console.log(authC1)
   }
 
+  const accounts = await auth.api.getSession({
+    headers: await headers(),
+  })
+
   return (
-    <form action={handleSubmit}>
+    <form
+      className="flex h-screen w-screen flex-col items-center justify-center"
+      action={handleSubmit}
+    >
       <div className="flex h-screen w-screen flex-col items-center justify-center">
         chat page
         <Button>Send</Button>
         <div className="flex h-full w-full flex-col items-center justify-center">
           <Button type="submit">Verify</Button>
         </div>
+        <div>{JSON.stringify(accounts)}</div>
         <Textarea />
       </div>
     </form>
