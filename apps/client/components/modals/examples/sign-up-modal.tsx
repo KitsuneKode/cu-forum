@@ -1,13 +1,11 @@
 'use client'
 
 import SignUp from '@/components/signup'
-import { cn } from '@cu-forum/ui/lib/utils'
-import { Button } from '@cu-forum/ui/components/button'
+import { useSignUpModal } from '@/store/use-sign-up-modal '
 import {
   Dialog,
   DialogContent,
   DialogTitle,
-  DialogTrigger,
 } from '@cu-forum/ui/components/dialog'
 
 interface Props {
@@ -15,12 +13,13 @@ interface Props {
 }
 
 const SignUpModal = ({ children }: Props) => {
+  const { isOpen, close } = useSignUpModal()
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={close}>
+      <>{children}</>
       <DialogContent className="bg-background w-sm max-w-sm border-0 p-0 shadow-none">
         <DialogTitle className="hidden"></DialogTitle>
-        <SignUp />
+        <SignUp modal />
       </DialogContent>
     </Dialog>
   )

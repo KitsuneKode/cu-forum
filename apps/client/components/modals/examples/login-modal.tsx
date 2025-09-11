@@ -5,16 +5,18 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  DialogTrigger,
 } from '@cu-forum/ui/components/dialog'
 
+import { useLoginModal } from '@/store/use-login-modal'
 const LoginModal = ({ children }: { children: React.ReactNode }) => {
+  const { isOpen, close } = useLoginModal()
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={close}>
+      {children}
       <DialogContent className="bg-background w-sm max-w-sm border-0 p-0 shadow-none">
         <DialogTitle className="hidden"></DialogTitle>
-        <Login />
+        <Login modal />
       </DialogContent>
     </Dialog>
   )

@@ -1,30 +1,20 @@
 -- CreateTable
-CREATE TABLE "user" (
+CREATE TABLE "public"."user" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "password_hash" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
     "emailVerified" BOOLEAN NOT NULL,
     "image" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "username" TEXT,
+    "displayUsername" TEXT,
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Video" (
-    "id" TEXT NOT NULL,
-    "title" TEXT NOT NULL,
-    "url" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "Video_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "session" (
+CREATE TABLE "public"."session" (
     "id" TEXT NOT NULL,
     "expiresAt" TIMESTAMP(3) NOT NULL,
     "token" TEXT NOT NULL,
@@ -38,7 +28,7 @@ CREATE TABLE "session" (
 );
 
 -- CreateTable
-CREATE TABLE "account" (
+CREATE TABLE "public"."account" (
     "id" TEXT NOT NULL,
     "accountId" TEXT NOT NULL,
     "providerId" TEXT NOT NULL,
@@ -57,7 +47,7 @@ CREATE TABLE "account" (
 );
 
 -- CreateTable
-CREATE TABLE "verification" (
+CREATE TABLE "public"."verification" (
     "id" TEXT NOT NULL,
     "identifier" TEXT NOT NULL,
     "value" TEXT NOT NULL,
@@ -69,19 +59,16 @@ CREATE TABLE "verification" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
+CREATE UNIQUE INDEX "user_email_key" ON "public"."user"("email");
 
 -- CreateIndex
-CREATE INDEX "user_email_idx" ON "user"("email");
+CREATE UNIQUE INDEX "user_username_key" ON "public"."user"("username");
 
 -- CreateIndex
-CREATE INDEX "Video_url_idx" ON "Video"("url");
-
--- CreateIndex
-CREATE UNIQUE INDEX "session_token_key" ON "session"("token");
+CREATE UNIQUE INDEX "session_token_key" ON "public"."session"("token");
 
 -- AddForeignKey
-ALTER TABLE "session" ADD CONSTRAINT "session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."session" ADD CONSTRAINT "session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "account" ADD CONSTRAINT "account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."account" ADD CONSTRAINT "account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE CASCADE ON UPDATE CASCADE;

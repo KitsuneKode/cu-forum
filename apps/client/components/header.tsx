@@ -1,22 +1,21 @@
 'use client'
-import React from 'react'
 import Link from 'next/link'
+import { useTRPC } from '@/trpc/client'
 import { Logo } from '@/components/logo'
+import { useRouter } from 'next/navigation'
 import { cn } from '@cu-forum/ui/lib/utils'
-import { api } from '@cu-forum/convex/index'
+import React, { useTransition } from 'react'
 import { Loader, Menu, X } from 'lucide-react'
+import { useQuery } from '@tanstack/react-query'
+import { authClient } from '@cu-forum/auth/client'
 import ModeToggle from '@/components/theme-button'
 import LoginModal from './modals/examples/login-modal'
+import { toast } from '@cu-forum/ui/components/sonner'
+import { useLoginModal } from '@/store/use-login-modal'
 import { Button } from '@cu-forum/ui/components/button'
 import SignUpModal from './modals/examples/sign-up-modal'
 import { NavUser } from '@cu-forum/ui/components/nav-user'
-import { authClient } from '@cu-forum/convex/lib/auth-client'
-import {
-  AuthLoading,
-  Authenticated,
-  Unauthenticated,
-  useQuery,
-} from 'convex/react'
+import { useSignUpModal } from '@/store/use-sign-up-modal '
 
 const menuItems = [
   { name: 'Dashboard', href: '/dashboard' },
@@ -28,8 +27,16 @@ const menuItems = [
 export default function NavBar() {
   const [menuState, setMenuState] = React.useState(false)
   const [isScrolled, setIsScrolled] = React.useState(false)
+  const { open: loginOpen } = useLoginModal()
+  const { open: signUpOpen } = useSignUpModal()
+  const [loading, startTransition] = useTransition()
 
-  const user = useQuery(api.auth.getCurrentUser)
+  const router = useRouter()
+
+  const api = useTRPC()
+  const { data, error, isLoading, refetch } = useQuery(
+    api.auth.getSession.queryOptions(),
+  )
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -104,52 +111,78 @@ export default function NavBar() {
               <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                 <ModeToggle />
 
-                <AuthLoading>
+                {isLoading && (
                   <div className="flex items-center justify-center">
                     <Loader className="h-5 w-5 animate-spin" />
                   </div>
-                </AuthLoading>
-                <Authenticated>
-                  <Button
-                    onClick={async () => await authClient.signOut()}
-                    size="sm"
-                    className={cn('lg:inline-flex')}
-                  >
-                    <span>Sign Out</span>
-                  </Button>
-                  <NavUser
-                    compact={true}
-                    user={{
-                      name: user?.name!,
-                      email: user?.email!,
-                      avatar: '/avatars/shadcn.jpg',
-                    }}
-                  />
-                </Authenticated>
-                <Unauthenticated>
-                  <LoginModal>
+                )}
+                {data?.user && !isLoading && (
+                  <>
                     <Button
-                      variant="outline"
+                      onClick={async () => {
+                        startTransition(async () => {
+                          const { data, error } = await authClient.signOut()
+                          if (error) {
+                            toast.error(error.message)
+                          }
+                          if (data) {
+                            toast.success('Signed out successfully')
+                            refetch()
+                            router.push('/login')
+                          }
+                        })
+                      }}
                       size="sm"
-                      className={cn(isScrolled && 'lg:hidden')}
+                      className={cn('lg:inline-flex')}
                     >
-                      Login
+                      {loading ? (
+                        <Loader className="mr-2 h-4 w-4 animate-spin" />
+                      ) : (
+                        <span>Sign Out</span>
+                      )}
                     </Button>
-                  </LoginModal>
-                  <SignUpModal>
-                    <Button size="sm" className={cn(isScrolled && 'lg:hidden')}>
-                      Sign Up
-                    </Button>
-                  </SignUpModal>
-                  <SignUpModal>
-                    <Button
-                      size="sm"
-                      className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}
-                    >
-                      Get Started
-                    </Button>
-                  </SignUpModal>
-                </Unauthenticated>
+                    <NavUser
+                      compact={true}
+                      user={{
+                        name: data?.user?.name!,
+                        email: data?.user?.email!,
+                        avatar: '/avatars/shadcn.jpg',
+                      }}
+                    />
+                  </>
+                )}
+                {!data?.user && !isLoading && (
+                  <>
+                    <LoginModal>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className={cn(isScrolled && 'lg:hidden')}
+                        onClick={loginOpen}
+                      >
+                        Login
+                      </Button>
+                    </LoginModal>
+                    <SignUpModal>
+                      <Button
+                        size="sm"
+                        className={cn(isScrolled && 'lg:hidden')}
+                        onClick={signUpOpen}
+                      >
+                        Sign Up
+                      </Button>
+                    </SignUpModal>
+                    <SignUpModal>
+                      <Button
+                        size="sm"
+                        className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}
+                        onClick={signUpOpen}
+                      >
+                        Get Started
+                      </Button>
+                    </SignUpModal>
+                  </>
+                )}
               </div>
             </div>
           </div>

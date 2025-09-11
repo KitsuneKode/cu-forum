@@ -12,8 +12,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@cu-forum/auth": "workspace:*",
     "@cu-forum/common": "workspace:*",
-    "@cu-forum/convex": "workspace:*",
+    "@cu-forum/store": "workspace:*",
+    "@cu-forum/trpc": "workspace:*",
     "@cu-forum/ui": "workspace:*",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-slot": "^1.2.3",
@@ -22,7 +24,6 @@
     "@trpc/server": "^11.4.3",
     "@trpc/tanstack-react-query": "^11.4.3",
     "client-only": "^0.0.1",
-    "convex": "^1.26.2",
     "lucide-react": "^0.501.0",
     "motion": "^12.23.12",
     "next": "^15.2.1",

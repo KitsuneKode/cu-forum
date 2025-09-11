@@ -1,15 +1,13 @@
-import { fetchQuery } from 'convex/nextjs'
-import { createAuth } from '@cu-forum/convex/lib/auth'
+import { headers } from 'next/headers'
+import { auth } from '@cu-forum/auth/server'
 import { NextRequest, NextResponse } from 'next/server'
-import { api, getSessionCookie, getToken } from '@cu-forum/convex'
 
 export async function middleware(request: NextRequest) {
-  const token = await getToken(createAuth)
-  console.log(token, 'token')
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  })
 
-  const session = await fetchQuery(api.auth.getSession, {}, { token })
-  console.log('session', session)
-
+  console.log(session)
   if (!session) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
