@@ -10,9 +10,7 @@ import { Input } from '@cu-forum/ui/components/input'
 import { Label } from '@cu-forum/ui/components/label'
 import { Check, Loader, X, Skull } from 'lucide-react'
 import { toast } from '@cu-forum/ui/components/sonner'
-import { useLoginModal } from '@/store/use-login-modal'
 import { Button } from '@cu-forum/ui/components/button'
-import { useSignUpModal } from '@/store/use-sign-up-modal '
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { DomainEmailInput } from '@cu-forum/ui/components/email-domain-input'
 import {
@@ -29,9 +27,6 @@ export default function SignUp({ modal = false }: { modal?: boolean }) {
   const [loading, startTransition] = useTransition()
 
   const router = useRouter()
-
-  const { close: signupClose } = useSignUpModal()
-  const { open: loginOpen } = useLoginModal()
 
   const [otpVerification, setOTPVerification] = useState(false)
 
@@ -155,7 +150,6 @@ export default function SignUp({ modal = false }: { modal?: boolean }) {
                         toast.success('Email verified successfully')
                         await queryClient.invalidateQueries({ queryKey })
                         setTimeout(() => {
-                          if (modal) signupClose()
                           router.push('/dashboard')
                         }, 300)
                       },
@@ -303,22 +297,9 @@ export default function SignUp({ modal = false }: { modal?: boolean }) {
         <div className="p-3">
           <p className="text-accent-foreground text-center text-sm">
             Have an account ?
-            {modal ? (
-              <Button
-                variant="link"
-                className="px-2"
-                onClick={() => {
-                  signupClose()
-                  loginOpen()
-                }}
-              >
-                Sign In
-              </Button>
-            ) : (
-              <Button asChild variant="link" className="px-2">
-                <Link href="/login">Sign In</Link>
-              </Button>
-            )}
+            <Button asChild variant="link" className="px-2">
+              <Link href="/login">Sign In</Link>
+            </Button>
           </p>
         </div>
       )}

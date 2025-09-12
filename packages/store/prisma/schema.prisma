@@ -15,17 +15,22 @@ datasource db {
 }
 
 model User {
-  id              String    @id
+  id              String         @id
   name            String
   email           String
-  emailVerified   Boolean   @default(false)
+  emailVerified   Boolean        @default(false)
   image           String?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @default(now()) @updatedAt
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @default(now()) @updatedAt
   username        String
   displayUsername String?
   sessions        Session[]
   accounts        Account[]
+  communities     Community[]
+  subscriptions   Subscription[]
+  posts           Post[]
+  comments        Comment[]
+  votes           Vote[]
 
   @@unique([email])
   @@unique([username])
@@ -75,4 +80,82 @@ model Verification {
   updatedAt  DateTime @default(now()) @updatedAt
 
   @@map("verification")
+}
+
+model Community {
+  id            String         @id @default(cuid())
+  name          String
+  description   String
+  mods          String[]
+  creatorId     String
+  createdBy     User           @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  subscriptions Subscription[]
+  posts         Post[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([name])
+  @@map("community")
+}
+
+model Subscription {
+  id          String    @id @default(cuid())
+  userId      String
+  communityId String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("subscription")
+}
+
+model Post {
+  id          String    @id @default(cuid())
+  title       String
+  content     Json?
+  authorId    String
+  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  comments    Comment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  Vote      Vote[]
+
+  @@map("post")
+}
+
+model Comment {
+  id       String @id @default(cuid())
+  text     String
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  postId   String
+  post     Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("comment")
+}
+
+model Vote {
+  id     String    @id @default(cuid())
+  userId String
+  user   User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId String
+  post   Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  type   VoteTypes
+
+  @@unique([userId, postId])
+  @@map("vote")
+}
+
+enum VoteTypes {
+  UP
+  DOWN
 }

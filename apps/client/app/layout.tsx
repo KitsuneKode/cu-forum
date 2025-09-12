@@ -29,8 +29,10 @@ const spaceGrotesk = Space_Grotesk({
 
 export default function RootLayout({
   children,
+  authModal,
 }: Readonly<{
   children: React.ReactNode
+  authModal: React.ReactNode
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -39,6 +41,7 @@ export default function RootLayout({
       >
         <Providers>
           <NavBar />
+          {authModal}
           {children}
           <BottomNavigationClient />
         </Providers>

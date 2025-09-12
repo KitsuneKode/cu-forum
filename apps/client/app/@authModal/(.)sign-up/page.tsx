@@ -1,22 +1,23 @@
 'use client'
-
+import { useState } from 'react'
 import SignUp from '@/components/signup'
-import { useSignUpModal } from '@/store/use-sign-up-modal '
+import { useRouter } from 'next/navigation'
 import {
   Dialog,
   DialogContent,
   DialogTitle,
 } from '@cu-forum/ui/components/dialog'
 
-interface Props {
-  children?: React.ReactNode
-}
+export default function SignUpModal() {
+  const [open, setOpen] = useState(true)
 
-const SignUpModal = ({ children }: Props) => {
-  const { isOpen, close } = useSignUpModal()
+  const router = useRouter()
+  const onOpenChange = (open: boolean) => {
+    setOpen(open)
+    router.back()
+  }
   return (
-    <Dialog open={isOpen} onOpenChange={close}>
-      {/* <>{children}</> */}
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-background w-sm max-w-sm border-0 p-0 shadow-none">
         <DialogTitle className="hidden"></DialogTitle>
         <SignUp modal />
@@ -24,5 +25,3 @@ const SignUpModal = ({ children }: Props) => {
     </Dialog>
   )
 }
-
-export default SignUpModal

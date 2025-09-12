@@ -1,20 +1,15 @@
 'use client'
+import React from 'react'
 import Link from 'next/link'
 import { useTRPC } from '@/trpc/client'
 import { Logo } from '@/components/logo'
 import { cn } from '@cu-forum/ui/lib/utils'
-import React, { useTransition } from 'react'
+import { usePathname } from 'next/navigation'
 import { Loader, Menu, X } from 'lucide-react'
 import { NavUser } from '@/components/nav-user'
 import { useQuery } from '@tanstack/react-query'
-import { authClient } from '@cu-forum/auth/client'
 import ModeToggle from '@/components/theme-button'
-import LoginModal from './modals/examples/login-modal'
-import { toast } from '@cu-forum/ui/components/sonner'
-import { useLoginModal } from '@/store/use-login-modal'
 import { Button } from '@cu-forum/ui/components/button'
-import { useSignUpModal } from '@/store/use-sign-up-modal '
-import SignUpModal from '@/components/modals/examples/sign-up-modal'
 
 const menuItems = [
   { name: 'Dashboard', href: '/dashboard' },
@@ -26,8 +21,7 @@ const menuItems = [
 export default function NavBar() {
   const [menuState, setMenuState] = React.useState(false)
   const [isScrolled, setIsScrolled] = React.useState(false)
-  const { open: loginOpen } = useLoginModal()
-  const { open: signUpOpen } = useSignUpModal()
+  const pathName = usePathname()
 
   const api = useTRPC()
   const { data, error, isLoading } = useQuery(
@@ -122,38 +116,36 @@ export default function NavBar() {
                     }}
                   />
                 )}
-                {!data?.user && !isLoading && (
-                  <>
-                    <LoginModal>
+                {!data?.user &&
+                  !isLoading &&
+                  pathName !== '/login' &&
+                  pathName !== '/sign-up' && (
+                    <>
                       <Button
                         variant="outline"
                         size="sm"
                         className={cn(isScrolled && 'lg:hidden')}
-                        onClick={loginOpen}
+                        asChild
                       >
-                        Login
+                        <Link href="/login">Login</Link>
                       </Button>
-                    </LoginModal>
-                    <SignUpModal>
+
                       <Button
                         size="sm"
                         className={cn(isScrolled && 'lg:hidden')}
-                        onClick={signUpOpen}
+                        asChild
                       >
-                        Sign Up
+                        <Link href="/sign-up">Sign Up</Link>
                       </Button>
-                    </SignUpModal>
-                    <SignUpModal>
                       <Button
                         size="sm"
                         className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}
-                        onClick={signUpOpen}
+                        asChild
                       >
-                        Get Started
+                        <Link href="/sign-up">Get Started</Link>
                       </Button>
-                    </SignUpModal>
-                  </>
-                )}
+                    </>
+                  )}
               </div>
             </div>
           </div>
