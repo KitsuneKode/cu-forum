@@ -15,22 +15,27 @@ datasource db {
 }
 
 model User {
-  id              String         @id
+  id              String    @id
   name            String
   email           String
-  emailVerified   Boolean        @default(false)
+  emailVerified   Boolean   @default(false)
   image           String?
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @default(now()) @updatedAt
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @default(now()) @updatedAt
   username        String
   displayUsername String?
   sessions        Session[]
   accounts        Account[]
-  communities     Community[]
-  subscriptions   Subscription[]
-  posts           Post[]
-  comments        Comment[]
-  votes           Vote[]
+
+  createdCommunities    Community[]    @relation("created_by")
+  subscribedCommunities Subscription[]
+
+  posts        Post[]
+  comments     Comment[]
+  votes        Vote[]
+  commentVotes CommentVote[]
+
+  moderatedCommunities CommunityModerator[]
 
   @@unique([email])
   @@unique([username])
@@ -83,12 +88,15 @@ model Verification {
 }
 
 model Community {
-  id            String         @id @default(cuid())
-  name          String
-  description   String
-  mods          String[]
-  creatorId     String
-  createdBy     User           @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  id          String @id @default(cuid())
+  name        String
+  description String
+
+  moderators CommunityModerator[]
+
+  creatorId String
+  createdBy User   @relation("created_by", fields: [creatorId], references: [id], onDelete: Cascade)
+
   subscriptions Subscription[]
   posts         Post[]
 
@@ -100,7 +108,6 @@ model Community {
 }
 
 model Subscription {
-  id          String    @id @default(cuid())
   userId      String
   communityId String
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -109,33 +116,45 @@ model Subscription {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
+  @@id([userId, communityId])
   @@map("subscription")
 }
 
 model Post {
-  id          String    @id @default(cuid())
-  title       String
-  content     Json?
-  authorId    String
-  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  id      String @id @default(cuid())
+  title   String
+  content Json?
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
   communityId String
   community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
   comments    Comment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-  Vote      Vote[]
+  votes     Vote[]
 
   @@map("post")
 }
 
 model Comment {
-  id       String @id @default(cuid())
-  text     String
+  id   String @id @default(cuid())
+  text String
+
   authorId String
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  postId   String
-  post     Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  postId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  replyToId String?
+  replyTo   Comment? @relation("reply_to", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  replies Comment[] @relation("reply_to")
+
+  votes CommentVote[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -144,15 +163,41 @@ model Comment {
 }
 
 model Vote {
-  id     String    @id @default(cuid())
   userId String
   user   User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   postId String
   post   Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
   type   VoteTypes
 
-  @@unique([userId, postId])
+  @@id([userId, postId])
   @@map("vote")
+}
+
+model CommentVote {
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  commentId String
+  comment   Comment   @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  type      VoteTypes
+
+  @@id([userId, commentId])
+  @@map("comment_vote")
+}
+
+model CommunityModerator {
+  userId String
+
+  communityId String
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  community Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+
+  assignedBy String // ID of who assigned this moderator
+  assignedAt DateTime @default(now())
+
+  @@id([userId, communityId])
+  @@map("community_moderator")
 }
 
 enum VoteTypes {
