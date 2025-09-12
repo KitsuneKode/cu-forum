@@ -1,7 +1,12 @@
-'use client'
+"use client"
 
-import { ChevronRight, type LucideIcon } from 'lucide-react'
+import { ChevronRight, type LucideIcon } from "lucide-react"
 
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@cu-forum/ui/components/collapsible"
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -12,12 +17,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from '@cu-forum/ui/components/sidebar'
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@cu-forum/ui/components/collapsible'
+} from "@cu-forum/ui/components/sidebar"
 
 export function NavMain({
   items,
@@ -40,21 +40,16 @@ export function NavMain({
         {items.map((item) => (
           <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
             <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
-                <SidebarMenuButton asChild tooltip={item.title}>
-                  <a href={item.url}>
-                    <item.icon />
-                    <span>{item.title}</span>
-                  </a>
-                </SidebarMenuButton>
-              </CollapsibleTrigger>
+              <SidebarMenuButton asChild tooltip={item.title}>
+                <a href={item.url}>
+                  <item.icon />
+                  <span>{item.title}</span>
+                </a>
+              </SidebarMenuButton>
               {item.items?.length ? (
                 <>
                   <CollapsibleTrigger asChild>
-                    <SidebarMenuAction
-                      popoverTargetAction="toggle"
-                      className="data-[state=open]:rotate-90"
-                    >
+                    <SidebarMenuAction className="data-[state=open]:rotate-90">
                       <ChevronRight />
                       <span className="sr-only">Toggle</span>
                     </SidebarMenuAction>

@@ -9,7 +9,8 @@ import type { QueryClient } from '@tanstack/react-query'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { createTRPCContext } from '@trpc/tanstack-react-query'
 import { createTRPCClient, httpBatchLink, loggerLink } from '@trpc/client'
-export const { TRPCProvider, useTRPC } = createTRPCContext<AppRouter>()
+export const { TRPCProvider, useTRPC, useTRPCClient } =
+  createTRPCContext<AppRouter>()
 let browserQueryClient: QueryClient
 /**
  * Returns a React Query client instance, creating a new one per request on the server or reusing a singleton on the browser.

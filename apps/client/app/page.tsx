@@ -2,9 +2,7 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import { useTRPC } from '@/trpc/client'
-import { prisma } from '@cu-forum/store'
 import { useQuery } from '@tanstack/react-query'
-import { authClient } from '@cu-forum/auth/client'
 import { Button } from '@cu-forum/ui/components/button'
 import { Textarea } from '@cu-forum/ui/components/textarea'
 import { DomainEmailInput } from '@cu-forum/ui/components/email-domain-input'
@@ -17,8 +15,6 @@ export default function Home() {
       text: 'hi',
     }),
   )
-
-  const { data, error } = useQuery(trpc.auth.getAllUser.queryOptions())
 
   return (
     <div className="flex h-[calc(200vh)] items-center justify-center">
@@ -39,8 +35,6 @@ export default function Home() {
             required
           />
           {convexData?.data?.greeting}
-          {data?.map((user) => user.email).join(', ')}
-          {error && <p>{error.message}</p>}
         </main>
         <div>
           <footer className="row-start-3 flex flex-wrap items-center justify-center gap-[24px]">

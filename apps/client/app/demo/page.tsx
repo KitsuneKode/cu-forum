@@ -1,9 +1,9 @@
 'use client'
+import { authClient } from '@cu-forum/auth/client'
 import React, { useReducer, useState } from 'react'
 import { Input } from '@cu-forum/ui/components/input'
 import { Label } from '@cu-forum/ui/components/label'
 import { Button } from '@cu-forum/ui/components/button'
-import { authClient } from '@cu-forum/convex/auth/client'
 
 const defaultFormValue = {
   email: '',

@@ -1,3 +1,4 @@
+import { prisma, PrismaClientInitializationError } from '@cu-forum/store'
 import { logger } from '@/utils/logger'
 import config from '@/utils/config'
 import cluster from 'cluster'
@@ -13,7 +14,13 @@ try {
     'betterAuthSecret',
     'betterAuthUrl',
   ])
+
+  await prisma.$connect()
 } catch (error) {
+  if (error instanceof PrismaClientInitializationError) {
+    logger.error('Prisma client initialization failed:', error)
+    process.exit(1)
+  }
   logger.error('Configuration validation failed:', error)
   process.exit(1)
 }

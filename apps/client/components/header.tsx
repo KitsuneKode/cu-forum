@@ -2,10 +2,10 @@
 import Link from 'next/link'
 import { useTRPC } from '@/trpc/client'
 import { Logo } from '@/components/logo'
-import { useRouter } from 'next/navigation'
 import { cn } from '@cu-forum/ui/lib/utils'
 import React, { useTransition } from 'react'
 import { Loader, Menu, X } from 'lucide-react'
+import { NavUser } from '@/components/nav-user'
 import { useQuery } from '@tanstack/react-query'
 import { authClient } from '@cu-forum/auth/client'
 import ModeToggle from '@/components/theme-button'
@@ -13,15 +13,14 @@ import LoginModal from './modals/examples/login-modal'
 import { toast } from '@cu-forum/ui/components/sonner'
 import { useLoginModal } from '@/store/use-login-modal'
 import { Button } from '@cu-forum/ui/components/button'
-import SignUpModal from './modals/examples/sign-up-modal'
-import { NavUser } from '@cu-forum/ui/components/nav-user'
 import { useSignUpModal } from '@/store/use-sign-up-modal '
+import SignUpModal from '@/components/modals/examples/sign-up-modal'
 
 const menuItems = [
   { name: 'Dashboard', href: '/dashboard' },
   { name: 'demo', href: '/demo' },
   { name: 'Chat', href: '/chat/12' },
-  { name: 'Demo Login', href: '/demo/sign-in' },
+  { name: 'Sign Up', href: '/sign-up' },
 ]
 
 export default function NavBar() {
@@ -29,12 +28,9 @@ export default function NavBar() {
   const [isScrolled, setIsScrolled] = React.useState(false)
   const { open: loginOpen } = useLoginModal()
   const { open: signUpOpen } = useSignUpModal()
-  const [loading, startTransition] = useTransition()
-
-  const router = useRouter()
 
   const api = useTRPC()
-  const { data, error, isLoading, refetch } = useQuery(
+  const { data, error, isLoading } = useQuery(
     api.auth.getSession.queryOptions(),
   )
 
@@ -117,39 +113,14 @@ export default function NavBar() {
                   </div>
                 )}
                 {data?.user && !isLoading && (
-                  <>
-                    <Button
-                      onClick={async () => {
-                        startTransition(async () => {
-                          const { data, error } = await authClient.signOut()
-                          if (error) {
-                            toast.error(error.message)
-                          }
-                          if (data) {
-                            toast.success('Signed out successfully')
-                            refetch()
-                            router.push('/login')
-                          }
-                        })
-                      }}
-                      size="sm"
-                      className={cn('lg:inline-flex')}
-                    >
-                      {loading ? (
-                        <Loader className="mr-2 h-4 w-4 animate-spin" />
-                      ) : (
-                        <span>Sign Out</span>
-                      )}
-                    </Button>
-                    <NavUser
-                      compact={true}
-                      user={{
-                        name: data?.user?.name!,
-                        email: data?.user?.email!,
-                        avatar: '/avatars/shadcn.jpg',
-                      }}
-                    />
-                  </>
+                  <NavUser
+                    compact={true}
+                    user={{
+                      name: data?.user?.name!,
+                      email: data?.user?.email!,
+                      avatar: '/avatars/image.png',
+                    }}
+                  />
                 )}
                 {!data?.user && !isLoading && (
                   <>

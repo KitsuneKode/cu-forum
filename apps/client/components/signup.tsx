@@ -1,10 +1,10 @@
 'use client'
 import Link from 'next/link'
+import { useTRPC } from '@/trpc/client'
 import { useRouter } from 'next/navigation'
 import { LogoIcon } from '@/components/logo'
 import useDebounce from '@/hooks/use-debounce'
 import { useState, useTransition } from 'react'
-import { useQuery } from '@tanstack/react-query'
 import { authClient } from '@cu-forum/auth/client'
 import { Input } from '@cu-forum/ui/components/input'
 import { Label } from '@cu-forum/ui/components/label'
@@ -13,6 +13,7 @@ import { toast } from '@cu-forum/ui/components/sonner'
 import { useLoginModal } from '@/store/use-login-modal'
 import { Button } from '@cu-forum/ui/components/button'
 import { useSignUpModal } from '@/store/use-sign-up-modal '
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { DomainEmailInput } from '@cu-forum/ui/components/email-domain-input'
 import {
   InputOTP,
@@ -37,6 +38,10 @@ export default function SignUp({ modal = false }: { modal?: boolean }) {
   const debouncedUserName = useDebounce(username, 300)
   const [verificationLoading, startVerificationTransaction] = useTransition()
 
+  const api = useTRPC()
+  const queryKey = api.auth.getSession.queryKey()
+
+  const queryClient = useQueryClient()
   const { data: dataUserName, isLoading: isLoadingUserName } = useQuery({
     queryKey: ['username', debouncedUserName],
     queryFn: () => {
@@ -83,7 +88,7 @@ export default function SignUp({ modal = false }: { modal?: boolean }) {
     console.log(email, debouncedUserName, name, password)
 
     startTransition(async () => {
-      const { data } = await authClient.signUp.email(
+      await authClient.signUp.email(
         {
           email: email.toLowerCase(),
           password,
@@ -94,30 +99,13 @@ export default function SignUp({ modal = false }: { modal?: boolean }) {
           onError: (ctx) => {
             toast.error(ctx.error.message)
           },
+          onSuccess: () => {
+            setTimeout(() => {
+              setOTPVerification(true)
+            }, 300)
+          },
         },
       )
-      if (data) {
-        console.log(data)
-        await authClient.emailOtp.sendVerificationOtp(
-          {
-            email: email.toLowerCase(),
-            type: 'email-verification',
-          },
-          {
-            onError: (ctx) => {
-              toast.error(ctx.error.statusText)
-              toast.error(ctx.error.name)
-              console.log(ctx.error)
-              toast.error(ctx.error.message)
-            },
-            onSuccess: () => {
-              setOTPVerification(true)
-              // if (modal) signupClose()
-              // router.push('/login')
-            },
-          },
-        )
-      }
     })
   }
   return (
@@ -141,7 +129,7 @@ export default function SignUp({ modal = false }: { modal?: boolean }) {
               : 'Welcome! Create an account to get started'}
           </p>
         </div>
-        {otpVerification ? (
+        {otpVerification && (
           <div className="mt-6 flex w-full flex-col items-center justify-center space-y-2">
             <Label htmlFor="otp" className="text-md">
               One time password
@@ -161,10 +149,11 @@ export default function SignUp({ modal = false }: { modal?: boolean }) {
                       onError: (ctx) => {
                         toast.error(ctx.error.message)
                       },
-                      onSuccess: (ctx) => {
+                      onSuccess: async (ctx) => {
                         console.log(ctx.data)
 
                         toast.success('Email verified successfully')
+                        await queryClient.invalidateQueries({ queryKey })
                         setTimeout(() => {
                           if (modal) signupClose()
                           router.push('/dashboard')
@@ -193,7 +182,8 @@ export default function SignUp({ modal = false }: { modal?: boolean }) {
 
             <div className="p-3" />
           </div>
-        ) : (
+        )}
+        {!otpVerification && (
           <div className="mt-6 space-y-6">
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-2">

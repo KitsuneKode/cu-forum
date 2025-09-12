@@ -74,8 +74,8 @@ export const auth = betterAuth({
   plugins: [
     emailOTP({
       overrideDefaultEmailVerification: true,
-      sendVerificationOnSignUp: false,
       disableSignUp: true,
+      sendVerificationOnSignUp: false,
       async sendVerificationOTP({ email, otp, type }) {
         console.log(email)
         const user = await prisma.user
@@ -116,7 +116,8 @@ export const auth = betterAuth({
               // Continue with normal flow if verification completion fails
             }
           }
-
+          console.log(otp, email)
+          return
           // Send the OTP for email verification
           const { data, error } = await sendEmail(email, otp)
           if (error) {

@@ -1,14 +1,29 @@
-import { AppSidebar } from '@cu-forum/ui/components/app-sidebar'
-import { SiteHeader } from '@cu-forum/ui/components/site-header'
+import { trpcCaller } from '@/trpc/server'
+import { redirect } from 'next/navigation'
+import { AppSidebar } from '@/components/app-sidebar'
+import { SiteHeader } from '@/components/site-header'
 import { SidebarInset, SidebarProvider } from '@cu-forum/ui/components/sidebar'
 
-export default function Page() {
+export default async function Page() {
+  const caller = await trpcCaller()
+  const session = await caller.auth.getSession()
+
+  if (!session) {
+    redirect('/login')
+  }
+
   return (
     <div className="[--header-height:calc(--spacing(14))]">
       <SidebarProvider className="flex flex-col">
         <SiteHeader />
         <div className="flex flex-1">
-          <AppSidebar />
+          <AppSidebar
+            userData={{
+              name: session?.user?.name!,
+              email: session?.user?.email!,
+              avatar: session?.user?.image!,
+            }}
+          />
           <SidebarInset>
             <div className="flex flex-1 flex-col gap-4 p-4">
               <div className="grid auto-rows-min gap-4 md:grid-cols-3">

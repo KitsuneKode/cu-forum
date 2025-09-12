@@ -6,6 +6,12 @@
       "@cu-forum/ui/*": ["./src/*"]
     }
   },
-  "include": [".", "../../apps/client/components/theme-button.tsx", "../../apps/client/components/header.tsx", "../../apps/client/components/bottom-navigation.tsx", "../../apps/client/components/bottom-navigation-client.tsx"],
+  "include": [
+    ".",
+    "../../apps/client/components/theme-button.tsx",
+    "../../apps/client/components/header.tsx",
+    "../../apps/client/components/bottom-navigation.tsx",
+    "../../apps/client/components/bottom-navigation-client.tsx"
+  ],
   "exclude": ["node_modules", "dist"]
 }

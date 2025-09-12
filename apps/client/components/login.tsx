@@ -1,12 +1,14 @@
 'use client'
 import Link from 'next/link'
 import { Loader } from 'lucide-react'
+import { useTRPC } from '@/trpc/client'
 import { useRouter } from 'next/navigation'
 import { LogoIcon } from '@/components/logo'
 import { useState, useTransition } from 'react'
 import { authClient } from '@cu-forum/auth/client'
 import { Input } from '@cu-forum/ui/components/input'
 import { Label } from '@cu-forum/ui/components/label'
+import { useQueryClient } from '@tanstack/react-query'
 import { toast } from '@cu-forum/ui/components/sonner'
 import { useLoginModal } from '@/store/use-login-modal'
 import { Button } from '@cu-forum/ui/components/button'
@@ -31,6 +33,10 @@ export default function Login({ modal = false }: { modal?: boolean }) {
   const { close: loginClose } = useLoginModal()
   const { open: signupOpen } = useSignUpModal()
 
+  const api = useTRPC()
+  const queryKey = api.auth.getSession.queryKey()
+  const queryClient = useQueryClient()
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.target as HTMLFormElement)
@@ -38,7 +44,6 @@ export default function Login({ modal = false }: { modal?: boolean }) {
     const password = formData.get('pwd') as string
 
     if (!isEmailValid || !email || loading) return
-    console.log(email, password)
     startTransition(async () => {
       await authClient.signIn.email(
         {
@@ -49,7 +54,6 @@ export default function Login({ modal = false }: { modal?: boolean }) {
         },
         {
           onError: (ctx) => {
-            console.log(ctx)
             toast.error(ctx.error.message)
             // Check if the error is related to email not being verified
             if (
@@ -59,8 +63,9 @@ export default function Login({ modal = false }: { modal?: boolean }) {
               setShowVerifyButton(true)
             }
           },
-          onSuccess: () => {
+          onSuccess: async () => {
             toast.success('Successfully signed in')
+            await queryClient.invalidateQueries({ queryKey })
           },
         },
       )

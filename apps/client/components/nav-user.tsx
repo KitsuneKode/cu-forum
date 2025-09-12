@@ -1,7 +1,31 @@
 'use client'
 
-import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from 'lucide-react'
+import {
+  BadgeCheck,
+  Bell,
+  ChevronsUpDown,
+  CreditCard,
+  LogOut,
+  Sparkles,
+} from 'lucide-react'
 
+import { useTRPC } from '@/trpc/client'
+import { redirect } from 'next/navigation'
+import { cn } from '@cu-forum/ui/lib/utils'
+import { authClient } from '@cu-forum/auth/client'
+import { useQueryClient } from '@tanstack/react-query'
+import { toast } from '@cu-forum/ui/components/sonner'
+import { useIsMobile } from '@cu-forum/ui/hooks/use-mobile'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@cu-forum/ui/components/avatar'
+import {
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from '@cu-forum/ui/components/sidebar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,10 +35,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@cu-forum/ui/components/dropdown-menu'
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@cu-forum/ui/components/sidebar'
-import { Avatar, AvatarFallback, AvatarImage } from '@cu-forum/ui/components/avatar'
-import { useIsMobile } from '../hooks/use-mobile'
-import { cn } from '../lib/utils'
 
 export function NavUser({
   user,
@@ -25,9 +45,27 @@ export function NavUser({
     email: string
     avatar: string
   }
+
   compact?: boolean
 }) {
   const isMobile = useIsMobile()
+
+  const api = useTRPC()
+  const queryClient = useQueryClient()
+  const queryKey = api.auth.getSession.queryKey()
+
+  const handleLogout = async () => {
+    const { data, error } = await authClient.signOut()
+    if (error) {
+      toast.error(error.message)
+    }
+    if (data) {
+      toast.success('Logged out successfully')
+
+      await queryClient.invalidateQueries({ queryKey })
+      redirect('/login')
+    }
+  }
 
   return !compact ? (
     <SidebarMenu>
@@ -110,7 +148,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut />
               Log out
             </DropdownMenuItem>
@@ -181,7 +219,11 @@ export function NavUser({
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            handleLogout()
+          }}
+        >
           <LogOut />
           Log out
         </DropdownMenuItem>
