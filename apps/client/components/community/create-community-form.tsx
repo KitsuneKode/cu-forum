@@ -42,7 +42,7 @@ export function CreateCommunityForm() {
   const debouncedCommunityName = useDebounce(communityName, 300)
 
   const {
-    data,
+    data: communityNameAvailable,
     isLoading,
     error: communityNameError,
   } = useQuery(
@@ -55,8 +55,6 @@ export function CreateCommunityForm() {
       },
     ),
   )
-
-  const communityNameAvailable = !data
 
   const { mutateAsync: createCommunity, isPending } = useMutation(
     api.community.createCommunity.mutationOptions(),

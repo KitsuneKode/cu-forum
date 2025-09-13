@@ -40,7 +40,7 @@ export default function SignUp() {
   const { data: dataUserName, isLoading: isLoadingUserName } = useQuery({
     queryKey: ['username', debouncedUserName],
     queryFn: () => {
-      if (!debouncedUserName) {
+      if (!debouncedUserName || debouncedUserName.trim().length < 3) {
         return
       }
       return authClient.isUsernameAvailable(
@@ -52,7 +52,7 @@ export default function SignUp() {
         },
       )
     },
-    enabled: !!debouncedUserName,
+    enabled: debouncedUserName.trim().length > 2,
   })
 
   const usernameAvailable = dataUserName?.data?.available
@@ -232,7 +232,7 @@ export default function SignUp() {
                   {!isLoadingUserName && usernameAvailable && (
                     <Check className="text-green-500" size={18} />
                   )}
-                  {debouncedUserName &&
+                  {debouncedUserName.length > 2 &&
                     !isLoadingUserName &&
                     !usernameAvailable && (
                       <X className="text-red-500" size={18} />

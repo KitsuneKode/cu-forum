@@ -12,8 +12,8 @@ export const prisma =
 declare global {
   var prisma:
     | PrismaClient<{
-        // omit: { user: { : true } }
-      }>
+      // omit: { user: { : true } }
+    }>
     | undefined
 }
 

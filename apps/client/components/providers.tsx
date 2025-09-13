@@ -4,6 +4,7 @@ import * as React from 'react'
 import { TRPCReactProvider } from '@/trpc/client'
 import { Toaster } from '@cu-forum/ui/components/sonner'
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -14,7 +15,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
       disableTransitionOnChange
       enableColorScheme
     >
-      <TRPCReactProvider>{children}</TRPCReactProvider>
+      <TRPCReactProvider>
+        {children}
+        <ReactQueryDevtools />
+      </TRPCReactProvider>
       <Toaster />
     </NextThemesProvider>
   )
