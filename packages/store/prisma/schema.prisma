@@ -103,6 +103,7 @@ model Community {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
+  @@unique([name])
   @@index([name])
   @@map("community")
 }

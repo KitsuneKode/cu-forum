@@ -20,7 +20,7 @@ import {
   InputOTPSlot,
 } from '@cu-forum/ui/components/input-otp'
 
-export default function SignUp({ modal = false }: { modal?: boolean }) {
+export default function SignUp() {
   const [isEmailValid, setIsEmailValid] = useState(false)
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')

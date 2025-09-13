@@ -10,9 +10,7 @@ import { Input } from '@cu-forum/ui/components/input'
 import { Label } from '@cu-forum/ui/components/label'
 import { useQueryClient } from '@tanstack/react-query'
 import { toast } from '@cu-forum/ui/components/sonner'
-import { useLoginModal } from '@/store/use-login-modal'
 import { Button } from '@cu-forum/ui/components/button'
-import { useSignUpModal } from '@/store/use-sign-up-modal '
 import { DomainEmailInput } from '@cu-forum/ui/components/email-domain-input'
 import {
   InputOTP,
@@ -21,7 +19,7 @@ import {
   InputOTPSlot,
 } from '@cu-forum/ui/components/input-otp'
 
-export default function Login({ modal = false }: { modal?: boolean }) {
+export default function Login() {
   const [isEmailValid, setIsEmailValid] = useState(false)
   const [email, setEmail] = useState('')
   const [loading, startTransition] = useTransition()
@@ -30,8 +28,6 @@ export default function Login({ modal = false }: { modal?: boolean }) {
   const [otpVerification, setOTPVerification] = useState(false)
   const [verificationLoading, startVerificationTransaction] = useTransition()
   const router = useRouter()
-  const { close: loginClose } = useLoginModal()
-  const { open: signupOpen } = useSignUpModal()
 
   const api = useTRPC()
   const queryKey = api.auth.getSession.queryKey()
@@ -137,7 +133,6 @@ export default function Login({ modal = false }: { modal?: boolean }) {
                       onSuccess: () => {
                         toast.success('Email verified successfully')
                         setTimeout(() => {
-                          if (modal) loginClose()
                           router.push('/dashboard')
                         }, 300)
                       },
@@ -233,22 +228,9 @@ export default function Login({ modal = false }: { modal?: boolean }) {
         <div className="p-3">
           <p className="text-accent-foreground text-center text-sm">
             Don&apos;t have an account ?
-            {modal ? (
-              <Button
-                variant="link"
-                className="px-2"
-                onClick={() => {
-                  loginClose()
-                  signupOpen()
-                }}
-              >
-                Create account
-              </Button>
-            ) : (
-              <Button asChild variant="link" className="px-2">
-                <Link href="/sign-up">Create account</Link>
-              </Button>
-            )}
+            <Button asChild variant="link" className="px-2">
+              <Link href="/sign-up">Create account</Link>
+            </Button>
           </p>
         </div>
       )}
